@@ -2,24 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
-import { MeteorOrbit } from "@/components/ui/meteor-orbit";
-
-// Define SocialIcon type if not exported from MeteorOrbit
-interface SocialIcon {
-  src: string;
-  alt?: string;
-  size?: number;
-}
+import { MeteorOrbit, type SocialIcon } from "@/components/ui/meteor-orbit";
 
 export default function TestPage() {
   const [status, setStatus] = useState("Loading...");
 
-  // Convert string URLs to SocialIcon objects
+  // Use the SocialIcon type from MeteorOrbit
   const orbitIcons: SocialIcon[] = [
-    "https://img.icons8.com/color/96/react-native.png",
-    "https://img.icons8.com/color/96/firebase.png",
-    "https://img.icons8.com/color/96/javascript.png",
-  ].map((url) => ({ src: url, alt: "icon" }));
+    { icon: "https://img.icons8.com/color/96/react-native.png" },
+    { icon: "https://img.icons8.com/color/96/firebase.png" },
+    { icon: "https://img.icons8.com/color/96/javascript.png" },
+  ];
 
   useEffect(() => {
     try {
