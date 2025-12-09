@@ -4,15 +4,22 @@ import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
 import { MeteorOrbit } from "@/components/ui/meteor-orbit";
 
+// Define SocialIcon type if not exported from MeteorOrbit
+interface SocialIcon {
+  src: string;
+  alt?: string;
+  size?: number;
+}
+
 export default function TestPage() {
   const [status, setStatus] = useState("Loading...");
 
-  // Example icons for orbit (replace with your actual icons)
-  const orbitIcons = [
+  // Convert string URLs to SocialIcon objects
+  const orbitIcons: SocialIcon[] = [
     "https://img.icons8.com/color/96/react-native.png",
     "https://img.icons8.com/color/96/firebase.png",
     "https://img.icons8.com/color/96/javascript.png",
-  ];
+  ].map((url) => ({ src: url, alt: "icon" }));
 
   useEffect(() => {
     try {
@@ -27,22 +34,22 @@ export default function TestPage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-900">
-      <div className="text-white text-2xl mb-6">{status}</div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-900 px-4">
+      {/* Status Text */}
+      <div className="text-white text-2xl mb-6 text-center">{status}</div>
 
+      {/* MeteorOrbit Loader */}
       <MeteorOrbit rippleCount={3} icons={orbitIcons}>
         <div className="flex items-center justify-center w-16 h-16 rounded-full bg-slate-800">
           <svg
             data-testid="geist-icon"
             height="32"
+            width="32"
             strokeLinejoin="round"
             viewBox="0 0 16 16"
-            width="32"
+            fill="currentColor"
           >
-            <path
-              d="M8 0C8.26264..."
-              fill="currentColor"
-            ></path>
+            <path d="M8 0C8.26264 0 8.5144 0.104413 8.7002 0.290039L10.4639 2.05273H12.9551C13.0853 2.05258 13.2146 2.07819 13.335 2.12793C13.4554 2.17773 13.5651 2.25063 13.6572 2.34277C13.7494 2.43492 13.8223 2.54461 13.8721 2.66504C13.9218 2.7854 13.9474 2.91468 13.9473 3.04492V5.53711L15.71 7.2998C15.8956 7.4856 16 7.73736 16 8C16 8.26264 15.8956 8.5144 15.71 8.7002L13.9473 10.4639V12.9551C13.9474 13.0853 13.9218 13.2146 13.8721 13.335C13.8223 13.4554 13.7494 13.5651 13.6572 13.6572C13.5651 13.7494 13.4554 13.8223 13.335 13.8721C13.2146 13.9218 13.0853 13.9474 12.9551 13.9473H10.4639L8.7002 15.71C8.5144 15.8956 8.26264 16 8 16C7.73736 16 7.4856 15.8956 7.2998 15.71L5.53613 13.9473H3.04492C2.49748 13.9473 2.05273 13.5037 2.05273 12.9551V10.4639L0.290039 8.7002C0.104413 8.5144 0 8.26264 0 8C0 7.73736 0.104413 7.4856 0.290039 7.2998L2.05273 5.53613V3.04492C2.05258 2.91468 2.07819 2.7854 2.12793 2.66504C2.17773 2.54461 2.25063 2.43492 2.34277 2.34277C2.43492 2.25063 2.54461 2.17773 2.66504 2.12793C2.7854 2.07819 2.91468 2.05258 3.04492 2.05273H5.53711L7.2998 0.290039C7.4856 0.104413 7.73736 0 8 0Z" />
           </svg>
         </div>
       </MeteorOrbit>
