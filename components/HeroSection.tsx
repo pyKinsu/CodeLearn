@@ -26,6 +26,37 @@ export default function HeroSection({}: HeroSectionProps) {
     { icon: TrendingUp, title: 'Progress Tracking', desc: 'Monitor your growth with detailed analytics', delay: 400 },
     { icon: Users, title: 'Community', desc: 'Learn alongside thousands of students', delay: 500 }
   ];
+  const languages = [
+    { 
+      name: 'C', 
+      icon: 'https://img.icons8.com/color/96/c-programming.png',
+      color: 'from-blue-600 to-cyan-600', 
+      description: 'Master fundamentals with pointers and memory management',
+      topics: ['Variables & Types', 'Pointers', 'File I/O', 'Data Structures']
+    },
+    { 
+      name: 'C++', 
+      icon: 'https://img.icons8.com/color/96/c-plus-plus-logo.png',
+      color: 'from-purple-600 to-blue-600', 
+      description: 'Advanced OOP, STL, and modern C++ features',
+      topics: ['Classes & Objects', 'STL', 'Templates', 'Exception Handling']
+    },
+    { 
+      name: 'Java', 
+      icon: 'https://img.icons8.com/color/96/java-coffee-cup-logo--v1.png',
+      color: 'from-orange-600 to-red-600', 
+      description: 'Enterprise development and Android programming',
+      topics: ['OOP Principles', 'Collections', 'Multithreading', 'Spring Boot']
+    },
+    { 
+      name: 'Python', 
+      icon: 'https://img.icons8.com/color/96/python--v1.png',
+      color: 'from-yellow-500 to-blue-600', 
+      description: 'Versatile language for web, ML, and automation',
+      topics: ['Data Structures', 'Web Dev', 'ML Basics', 'Automation']
+    }
+  ];
+
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => setMousePosition({ x: e.clientX, y: e.clientY });
@@ -108,6 +139,44 @@ export default function HeroSection({}: HeroSectionProps) {
           ))}
         </div>
 
+
+        {/* Languages Section */}
+      <section id="languages" className="py-20 px-6 border-t border-white/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-bold mb-4">Master Four Languages</h2>
+            <p className="text-xl text-gray-400">Choose your learning path and become proficient</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {languages.map((lang, idx) => (
+              <div key={idx} className="group relative bg-slate-800/50 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/30 hover:border-purple-500 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/40">
+                <div className="mb-4">
+                  <img 
+                    src={lang.icon} 
+                    alt={lang.name}
+                    className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-2xl font-bold mb-2 text-center">{lang.name}</h3>
+                <p className="text-gray-400 text-sm mb-4 text-center">{lang.description}</p>
+                <ul className="space-y-2 mb-6">
+                  {lang.topics.map((topic, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-sm text-gray-300">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/signup" className="w-full block text-center py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg font-semibold hover:shadow-lg transition-all">
+                  Learn {lang.name}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+        
         {/* Features */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-20">
           {features.map((feature, idx) => {
