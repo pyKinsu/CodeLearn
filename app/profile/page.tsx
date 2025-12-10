@@ -198,23 +198,7 @@ export default function ProfilePage() {
   const displayAvatarUrl = tempAvatarUrl || avatarUrl || roboHashUrl;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-slate-700/50 bg-slate-950/80 backdrop-blur-xl">
-        <div className="px-4 py-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <Link href="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <ArrowLeft className="h-5 w-5 text-blue-400" />
-              <span className="text-sm font-semibold text-slate-300 hidden sm:inline">Back</span>
-            </Link>
-            <h1 className="text-xl sm:text-2xl font-bold text-white">Profile Settings</h1>
-            <div className="w-10" />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="px-4 py-8 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-8 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           {/* Alert Messages */}
           {error && (
@@ -284,7 +268,6 @@ export default function ProfilePage() {
             </>
           )}
         </div>
-      </main>
     </div>
   );
 }>
