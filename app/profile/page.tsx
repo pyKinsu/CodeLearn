@@ -28,7 +28,7 @@ export default function ProfilePage() {
   const [username, setUsername] = useState('');
   const [branch, setBranch] = useState('');
   const [semester, setSemester] = useState('');
-  const [shift, setShift] = useState('');
+  const [shift, setYear] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
   
   const [tempFirstName, setTempFirstName] = useState('');
@@ -37,7 +37,7 @@ export default function ProfilePage() {
   const [tempUsername, setTempUsername] = useState('');
   const [tempBranch, setTempBranch] = useState('');
   const [tempSemester, setTempSemester] = useState('');
-  const [tempShift, setTempShift] = useState('');
+  const [tempYear, setTempYear] = useState('');
   const [tempAvatarUrl, setTempAvatarUrl] = useState('');
 
   // Redirect to login if not authenticated
@@ -146,7 +146,7 @@ export default function ProfilePage() {
           username: tempUsername,
           branch: tempBranch,
           semester: tempSemester,
-          shift: tempShift,
+          shift: tempYear,
           avatarUrl: tempAvatarUrl,
         });
 
@@ -156,7 +156,7 @@ export default function ProfilePage() {
         setUsername(tempUsername);
         setBranch(tempBranch);
         setSemester(tempSemester);
-        setShift(tempShift);
+        setShift(tempYear);
         setAvatarUrl(tempAvatarUrl);
         setIsEditing(false);
         setSuccessMessage('Profile updated successfully!');
@@ -358,9 +358,9 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-gray-700 font-semibold text-sm">Shift</Label>
+                      <Label className="text-gray-700 font-semibold text-sm">Year</Label>
                       <div className="rounded-lg border border-gray-300 bg-white p-2">
-                        <p className="text-black text-sm font-medium">{shift || '-'}</p>
+                        <p className="text-black text-sm font-medium">{year || '-'}</p>
                       </div>
                     </div>
                   </div>
@@ -488,17 +488,20 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="shift" className="text-black font-semibold text-sm">Shift</Label>
+                      <Label htmlFor="shift" className="text-black font-semibold text-sm">Year</Label>
                       <select
                         id="shift"
-                        value={tempShift}
+                        value={tempYear}
                         onChange={(e) => setTempShift(e.target.value)}
                         disabled={isSaving}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-black focus:border-blue-600 focus:ring-blue-600 disabled:opacity-50"
                       >
-                        <option value="">Select Shift</option>
-                        <option value="Morning">Morning</option>
-                        <option value="Evening">Evening</option>
+                        <option value="">Select Semester</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                        <option value="5">5th year</option>
                       </select>
                     </div>
                   </div>
