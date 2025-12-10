@@ -6,8 +6,6 @@ import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/lib/authContext';
-import { getUserProfile } from '@/lib/userService';
-import { getCompletedQuizzesCount, getWeeklyCompletedQuizzes } from '@/lib/quizService';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Menu, X, LogOut, Settings, FileText, HelpCircle, User, Code, BookOpen, Zap, ChevronRight, Award, BarChart3 } from 'lucide-react';
@@ -19,9 +17,7 @@ export default function DashboardPage() {
   const [profileLoading, setProfileLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [completedQuizzesCount, setCompletedQuizzesCount] = useState(0);
-  const [weeklyQuizzes, setWeeklyQuizzes] = useState<any[]>([]);
-  const [totalQuestionsAttempted, setTotalQuestionsAttempted] = useState(0);
+ 
 
   // Redirect to login if not authenticated
   useEffect(() => {
