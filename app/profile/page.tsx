@@ -61,7 +61,7 @@ export default function ProfilePage() {
             setUsername(profile.username || '');
             setBranch(profile.branch || '');
             setSemester(profile.semester || '');
-            setShift(profile.shift || '');
+            setShift(profile.year || '');
             setAvatarUrl(profile.avatarUrl || '');
           }
           setIsLoading(false);
