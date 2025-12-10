@@ -6,11 +6,15 @@ export interface UserProfile {
   firstName: string;
   lastName: string;
   email: string;
+  username?: string;
+  branch?: string;
+  semester?: string;
+  year?: string;
+  avatarUrl?: string;
   uid: string;
   createdAt?: string;
   updatedAt?: string;
 }
-
 export async function createUserProfile(
   uid: string,
   userData: Omit<UserProfile, 'uid' | 'createdAt' | 'updatedAt'>
