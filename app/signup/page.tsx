@@ -1,19 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { createUserProfile } from '@/lib/userService';
+import { useAuth } from '@/lib/authContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Lock, User, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 
 export default function SignupPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -25,56 +27,55 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, authLoading, router]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      // Validate all fields
       if (!firstName || !lastName || !email || !password || !confirmPassword) {
         setError('Please fill in all fields');
         setIsLoading(false);
         return;
       }
 
-      // Validate passwords match
       if (password !== confirmPassword) {
         setError('Passwords do not match');
         setIsLoading(false);
         return;
       }
 
-      // Validate password length
       if (password.length < 6) {
         setError('Password must be at least 6 characters');
         setIsLoading(false);
         return;
       }
 
-      // Validate terms agreement
       if (!agreeTerms) {
         setError('Please agree to the Terms of Service');
         setIsLoading(false);
         return;
       }
 
-      // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Create user profile in Firestore
       await createUserProfile(userCredential.user.uid, {
         firstName,
         lastName,
         email,
       });
 
-      // Redirect to dashboard
       router.push('/dashboard');
     } catch (err: any) {
       setIsLoading(false);
 
-      // Handle specific Firebase errors
       if (err.code === 'auth/email-already-in-use') {
         setError('Email already registered. Please login or use a different email');
       } else if (err.code === 'auth/weak-password') {
@@ -89,178 +90,210 @@ export default function SignupPage() {
     }
   };
 
+  // Show loading while checking auth state
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-2">
-          <CardTitle className="text-2xl">Create account</CardTitle>
-          <CardDescription>
-            Sign up to get started
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-600">{error}</p>
-            </div>
-          )}
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-8">
+      <div className="flex flex-col items-center gap-6 w-full max-w-md">
+        {/* Signup Card */}
+        <Card className="w-full border-gray-300 bg-white shadow-lg">
+          <CardHeader className="space-y-2 text-center">
+            <CardTitle className="text-3xl font-bold text-black">Create Account</CardTitle>
+            <CardDescription className="text-gray-600">
+              Join CodeLearn today
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-300 rounded-lg">
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* First Name & Last Name */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName" className="text-black font-semibold text-sm">First Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                    <Input
+                      id="firstName"
+                      type="text"
+                      placeholder="John"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      disabled={isLoading}
+                      className="pl-10 border-gray-300 bg-white text-black placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className="text-black font-semibold text-sm">Last Name</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                    <Input
+                      id="lastName"
+                      type="text"
+                      placeholder="Doe"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      disabled={isLoading}
+                      className="pl-10 border-gray-300 bg-white text-black placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Email Field */}
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="email" className="text-black font-semibold">Email</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Input
-                    id="firstName"
-                    type="text"
-                    placeholder="John"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    id="email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}
-                    className="pl-10"
+                    className="pl-10 border-gray-300 bg-white text-black placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600"
                     required
                   />
                 </div>
               </div>
 
+              {/* Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="password" className="text-black font-semibold">Password</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Input
-                    id="lastName"
-                    type="text"
-                    placeholder="Doe"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     disabled={isLoading}
-                    className="pl-10"
+                    className="pl-10 pr-10 border-gray-300 bg-white text-black placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={isLoading}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
-                  className="pl-10"
-                  required
-                />
+              {/* Confirm Password Field */}
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="text-black font-semibold">Confirm Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    disabled={isLoading}
+                    className="pl-10 pr-10 border-gray-300 bg-white text-black placeholder:text-gray-400 focus:border-blue-600 focus:ring-blue-600"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    disabled={isLoading}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700 disabled:opacity-50"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+              {/* Terms Checkbox */}
+              <div className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
                   disabled={isLoading}
-                  className="pl-10 pr-10"
-                  required
+                  className="w-4 h-4 rounded border-gray-300 bg-white cursor-pointer"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
-                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-300 disabled:opacity-50"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
+                <label htmlFor="terms" className="text-sm text-gray-700 cursor-pointer">
+                  I agree to the{' '}
+                  <Link href="/terms" className="text-blue-600 hover:text-blue-700 font-medium">
+                    Terms of Service
+                  </Link>
+                </label>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  placeholder="Confirm your password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  disabled={isLoading}
-                  className="pl-10 pr-10"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  disabled={isLoading}
-                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-300 disabled:opacity-50"
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="terms"
-                checked={agreeTerms}
-                onChange={(e) => setAgreeTerms(e.target.checked)}
+              {/* Submit Button */}
+              <Button
+                type="submit"
                 disabled={isLoading}
-                className="w-4 h-4 rounded border-slate-300 cursor-pointer"
-              />
-              <Label htmlFor="terms" className="text-sm cursor-pointer">
-                I agree to the{' '}
-                <Link href="/terms" className="text-slate-100 hover:text-white">
-                  Terms of Service
-                </Link>
-              </Label>
+                className="w-full h-11 bg-black hover:bg-gray-900 text-white font-semibold border-0 transition-all"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  'Sign Up'
+                )}
+              </Button>
+            </form>
+
+            {/* Sign In Link */}
+            <div className="mt-6 text-center text-sm">
+              <span className="text-gray-700">Already have an account? </span>
+              <Link
+                href="/login"
+                className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+              >
+                Sign in
+              </Link>
             </div>
+          </CardContent>
+        </Card>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating account...
-                </>
-              ) : (
-                'Sign up'
-              )}
+        {/* Back to Home Button - Below Card */}
+        <div>
+          <Link href="/">
+            <Button variant="outline" className="text-black border-gray-300 hover:bg-gray-100 gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Home
             </Button>
-          </form>
-
-          <div className="mt-6 text-center text-sm">
-            <span className="text-slate-400">Already have an account? </span>
-            <Link
-              href="/login"
-              className="text-slate-100 hover:text-white font-medium"
-            >
-              Sign in
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
