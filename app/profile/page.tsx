@@ -376,7 +376,41 @@ export default function ProfilePage() {
               </div>
             ) : (
               <div className="space-y-6">
-                
+                {/* Edit Avatar Card */}
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">Update Avatar</h3>
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                      <div className="flex-shrink-0">
+                        <img
+                          src={displayAvatarUrl}
+                          alt="Avatar"
+                          className="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover border-4 border-slate-200 shadow-md"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <button
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={isSaving}
+                          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+                        >
+                          <Upload className="h-4 w-4" />
+                          Upload Photo
+                        </button>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarChange}
+                          disabled={isSaving}
+                          className="hidden"
+                        />
+                        <p className="text-sm text-slate-600 mt-3">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Personal Information Form */}
                 <Card className="border-slate-200 bg-white shadow-sm">
                   <CardContent className="p-6 sm:p-8">
@@ -518,43 +552,6 @@ export default function ProfilePage() {
                     </div>
                   </CardContent>
                 </Card>
-
-
-                {/* Edit Avatar Card */}
-                <Card className="border-slate-200 bg-white shadow-sm">
-                  <CardContent className="p-6 sm:p-8">
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">Update Avatar</h3>
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                      <div className="flex-shrink-0">
-                        <img
-                          src={displayAvatarUrl}
-                          alt="Avatar"
-                          className="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover border-4 border-slate-200 shadow-md"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <button
-                          onClick={() => fileInputRef.current?.click()}
-                          disabled={isSaving}
-                          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
-                        >
-                          <Upload className="h-4 w-4" />
-                          Upload Photo
-                        </button>
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          accept="image/*"
-                          onChange={handleAvatarChange}
-                          disabled={isSaving}
-                          className="hidden"
-                        />
-                        <p className="text-sm text-slate-600 mt-3">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4">
