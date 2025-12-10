@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
-import { Mail, User, Edit2, Save, X, Loader2, ArrowLeft, Upload, CheckCircle, Book, Hash, MapPin, Code } from 'lucide-react';
+import { Mail, User, Edit2, Save, X, Loader2, ArrowLeft, Upload, CheckCircle, Hash } from 'lucide-react';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -181,10 +181,10 @@ export default function ProfilePage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      <div className="flex min-h-screen items-center justify-center bg-white">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
-          <p className="text-slate-300">Loading profile...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-400 mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading profile...</p>
         </div>
       </div>
     );
@@ -198,256 +198,228 @@ export default function ProfilePage() {
   const displayAvatarUrl = tempAvatarUrl || avatarUrl || roboHashUrl;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4 py-8 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          {/* Alert Messages */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl animate-in fade-in duration-300">
-              <p className="text-sm text-red-400 flex items-center gap-3">
-                <div className="h-2 w-2 rounded-full bg-red-400 flex-shrink-0"></div>
-                {error}
-              </p>
-            </div>
-          )}
-
-          {successMessage && (
-            <div className="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl animate-in fade-in duration-300">
-              <p className="text-sm text-green-400 flex items-center gap-3">
-                <CheckCircle className="h-5 w-5 flex-shrink-0" />
-                {successMessage}
-              </p>
-            </div>
-          )}
-
-          {!isEditing ? (
-            <>
-              {/* Profile Header Card */}
-              <div className="mb-8 bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sm:p-8 lg:p-10">
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
-                  {/* Avatar */}
-                  <div className="flex-shrink-0">
-                    <div className="relative group">
-                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-                      <img
-                        src={displayAvatarUrl}
-                        alt="Avatar"
-                        className="relative h-32 w-32 sm:h-40 sm:w-40 rounded-2xl object-cover border-4 border-slate-900 shadow-2xl"
-                      />
-                    </div>
-                </div>
-              </div>
-
-              {/* Save/Cancel Buttons */}
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <button
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                >
-                  {isSaving ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      <span className="hidden sm:inline">Saving...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Save className="h-5 w-5" />
-                      <span>Save Changes</span>
-                    </>
-                  )}
-                </button>
-                <button
-                  onClick={handleCancel}
-                  disabled={isSaving}
-                  className="flex-1 sm:flex-1 px-6 sm:px-8 py-3 sm:py-4 border border-slate-700 hover:bg-slate-800/50 disabled:opacity-50 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
-                >
-                  <X className="h-5 w-5" />
-                  <span>Cancel</span>
-                </button>
-              </div>
-            </>
-          )}
+    <div className="min-h-screen bg-slate-50">
+      {/* Container */}
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        {/* Back Button */}
+        <div className="mb-8">
+          <Link href="/dashboard">
+            <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back to Dashboard
+            </Button>
+          </Link>
         </div>
-    </div>
-  );
-}>
-                  </div>
 
-                  {/* Profile Info */}
-                  <div className="flex-1 text-center sm:text-left">
-                    <div className="mb-4">
-                      <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
-                        {firstName} {lastName}
-                      </h2>
-                      {username && (
-                        <p className="text-base sm:text-lg text-blue-400 font-semibold">@{username}</p>
-                      )}
-                    </div>
-
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                      {rollNum && (
-                        <div className="bg-slate-700/30 rounded-lg p-3">
-                          <p className="text-xs text-slate-400 mb-1">Roll Number</p>
-                          <p className="text-sm font-bold text-white">{rollNum}</p>
-                        </div>
-                      )}
-                      {branch && (
-                        <div className="bg-slate-700/30 rounded-lg p-3">
-                          <p className="text-xs text-slate-400 mb-1">Branch</p>
-                          <p className="text-sm font-bold text-white">{branch}</p>
-                        </div>
-                      )}
-                      {semester && (
-                        <div className="bg-slate-700/30 rounded-lg p-3">
-                          <p className="text-xs text-slate-400 mb-1">Semester</p>
-                          <p className="text-sm font-bold text-white">{semester}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Profile Completion */}
-                    <div className="bg-slate-700/20 rounded-lg p-3 sm:p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-xs sm:text-sm font-semibold text-slate-300">Profile Completion</p>
-                        <p className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                          {profileCompletion}%
-                        </p>
-                      </div>
-                      <div className="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-500 rounded-full shadow-lg shadow-blue-500/50"
-                          style={{ width: `${profileCompletion}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Information Cards Grid */}
-              <div className="space-y-6">
-                {/* Personal Information */}
-                <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <User className="h-5 w-5 text-blue-400" />
-                    Personal Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-blue-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">First Name</p>
-                      <p className="text-lg sm:text-xl font-bold text-white">{firstName || 'Not set'}</p>
-                    </div>
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-purple-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">Last Name</p>
-                      <p className="text-lg sm:text-xl font-bold text-white">{lastName || 'Not set'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Contact Information */}
-                <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <Mail className="h-5 w-5 text-blue-400" />
-                    Contact Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-blue-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">Email</p>
-                      <p className="text-base sm:text-lg font-bold text-white break-all">{email || 'Not set'}</p>
-                    </div>
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-purple-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">Username</p>
-                      <p className="text-base sm:text-lg font-bold text-white">{username ? `@${username}` : 'Not set'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* College Information */}
-                <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <Code className="h-5 w-5 text-blue-400" />
-                    College Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-blue-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">Branch</p>
-                      <p className="text-lg sm:text-xl font-bold text-white">{branch || 'Not set'}</p>
-                    </div>
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-purple-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">Semester</p>
-                      <p className="text-lg sm:text-xl font-bold text-white">{semester ? `Semester ${semester}` : 'Not set'}</p>
-                    </div>
-                    <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 hover:border-pink-500/50 transition-all">
-                      <p className="text-xs sm:text-sm text-slate-400 font-semibold mb-2 uppercase tracking-wide">Roll Number</p>
-                      <p className="text-lg sm:text-xl font-bold text-white">{rollNum || 'Not set'}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Edit Button */}
-              <div className="mt-8 flex gap-4">
-                <button
-                  onClick={handleEdit}
-                  className="flex-1 sm:flex-none px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                >
-                  <Edit2 className="h-5 w-5" />
-                  Edit Profile
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Edit Avatar Section */}
-              <div className="mb-8 bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sm:p-8">
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-6">Update Avatar</h3>
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                  <div className="relative group flex-shrink-0">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-75"></div>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Left Column - Profile Header (Desktop) / Full Width (Mobile) */}
+          {!isEditing && (
+            <div className="lg:col-span-1">
+              <Card className="border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6 sm:p-8">
+                  {/* Avatar */}
+                  <div className="flex justify-center mb-6">
                     <img
                       src={displayAvatarUrl}
                       alt="Avatar"
-                      className="relative h-32 w-32 sm:h-40 sm:w-40 rounded-2xl object-cover border-4 border-slate-900 shadow-2xl"
+                      className="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover border-4 border-slate-200 shadow-md"
                     />
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={isSaving}
-                      className="absolute bottom-0 right-0 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-3 rounded-full shadow-lg disabled:opacity-50 transition-all transform hover:scale-110"
-                    >
-                      <Upload className="h-5 w-5" />
-                    </button>
                   </div>
-                  <div className="flex-1">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarChange}
-                      disabled={isSaving}
-                      className="hidden"
-                    />
-                    <p className="text-slate-300 mb-3">Click the upload button to change your avatar</p>
-                    <p className="text-sm text-slate-400">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
-                  </div>
-                </div>
-              </div>
 
-              {/* Edit Form Sections */}
-              <div className="space-y-8">
+                  {/* Name */}
+                  <div className="text-center mb-4">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+                      {firstName} {lastName}
+                    </h2>
+                    {username && (
+                      <p className="text-sm text-slate-600">@{username}</p>
+                    )}
+                  </div>
+
+                  {/* Quick Info */}
+                  <div className="space-y-3 mb-6 border-t border-slate-200 pt-6">
+                    {email && (
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Email</p>
+                        <p className="text-sm text-slate-700 break-all">{email}</p>
+                      </div>
+                    )}
+                    {branch && (
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Branch</p>
+                        <p className="text-sm text-slate-700">{branch}</p>
+                      </div>
+                    )}
+                    {semester && (
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Semester</p>
+                        <p className="text-sm text-slate-700">Semester {semester}</p>
+                      </div>
+                    )}
+                    {rollNum && (
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Roll Number</p>
+                        <p className="text-sm text-slate-700">{rollNum}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Profile Completion */}
+                  <div className="bg-slate-100 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs font-semibold text-slate-600">Profile Completion</p>
+                      <p className="text-lg font-bold text-slate-900">{profileCompletion}%</p>
+                    </div>
+                    <div className="w-full h-2 bg-slate-300 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-slate-600 transition-all duration-500 rounded-full"
+                        style={{ width: `${profileCompletion}%` }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  {/* Edit Button */}
+                  <button
+                    onClick={handleEdit}
+                    className="w-full mt-6 px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                    Edit Profile
+                  </button>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Right Column - Profile Details / Edit Form */}
+          <div className={isEditing ? 'lg:col-span-3' : 'lg:col-span-2'}>
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {successMessage && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-sm text-green-700 flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4" />
+                  {successMessage}
+                </p>
+              </div>
+            )}
+
+            {!isEditing ? (
+              <div className="space-y-6">
+                {/* Personal Information Card */}
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                      <User className="h-5 w-5 text-slate-600" />
+                      Personal Information
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">First Name</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900">{firstName || '-'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Last Name</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900">{lastName || '-'}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Contact Information Card */}
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                      <Mail className="h-5 w-5 text-slate-600" />
+                      Contact Information
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Email</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900 break-all">{email || '-'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Username</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900">{username ? `@${username}` : '-'}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* College Information Card */}
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">College Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Branch</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900">{branch || '-'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Semester</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900">{semester ? `Semester ${semester}` : '-'}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Roll Number</p>
+                        <p className="text-base sm:text-lg font-semibold text-slate-900">{rollNum || '-'}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* Edit Avatar Card */}
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">Update Avatar</h3>
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                      <div className="flex-shrink-0">
+                        <img
+                          src={displayAvatarUrl}
+                          alt="Avatar"
+                          className="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover border-4 border-slate-200 shadow-md"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <button
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={isSaving}
+                          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+                        >
+                          <Upload className="h-4 w-4" />
+                          Upload Photo
+                        </button>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarChange}
+                          disabled={isSaving}
+                          className="hidden"
+                        />
+                        <p className="text-sm text-slate-600 mt-3">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Personal Information Form */}
-                <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sm:p-8">
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <User className="h-5 w-5 text-blue-400" />
-                    Personal Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    <div>
-                      <Label htmlFor="firstName" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        First Name *
-                      </Label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-3 h-5 w-5 text-blue-400 pointer-events-none" />
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">Personal Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="firstName" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          First Name *
+                        </Label>
                         <Input
                           id="firstName"
                           type="text"
@@ -455,17 +427,14 @@ export default function ProfilePage() {
                           value={tempFirstName}
                           onChange={(e) => setTempFirstName(e.target.value)}
                           disabled={isSaving}
-                          className="pl-10 border-slate-700 bg-slate-800/40 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-blue-500/30 h-10 sm:h-12"
+                          className="border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:ring-slate-600/20 h-10 sm:h-12"
                           required
                         />
                       </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        Last Name *
-                      </Label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-3 h-5 w-5 text-purple-400 pointer-events-none" />
+                      <div>
+                        <Label htmlFor="lastName" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          Last Name *
+                        </Label>
                         <Input
                           id="lastName"
                           type="text"
@@ -473,27 +442,23 @@ export default function ProfilePage() {
                           value={tempLastName}
                           onChange={(e) => setTempLastName(e.target.value)}
                           disabled={isSaving}
-                          className="pl-10 border-slate-700 bg-slate-800/40 text-white placeholder:text-slate-500 focus:border-purple-500 focus:ring-purple-500/30 h-10 sm:h-12"
+                          className="border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:ring-slate-600/20 h-10 sm:h-12"
                           required
                         />
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
 
                 {/* Contact Information Form */}
-                <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sm:p-8">
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <Mail className="h-5 w-5 text-blue-400" />
-                    Contact Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    <div>
-                      <Label htmlFor="email" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        Email *
-                      </Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-5 w-5 text-blue-400 pointer-events-none" />
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">Contact Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="email" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          Email *
+                        </Label>
                         <Input
                           id="email"
                           type="email"
@@ -501,89 +466,126 @@ export default function ProfilePage() {
                           value={tempEmail}
                           onChange={(e) => setTempEmail(e.target.value)}
                           disabled={isSaving}
-                          className="pl-10 border-slate-700 bg-slate-800/40 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-blue-500/30 h-10 sm:h-12"
+                          className="border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:ring-slate-600/20 h-10 sm:h-12"
                           required
                         />
                       </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="username" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        Username
-                      </Label>
-                      <div className="relative">
-                        <span className="absolute left-3 top-3 text-blue-400 font-bold pointer-events-none">@</span>
-                        <Input
-                          id="username"
-                          type="text"
-                          placeholder="username"
-                          value={tempUsername}
-                          onChange={(e) => setTempUsername(e.target.value)}
-                          disabled={isSaving}
-                          className="pl-10 border-slate-700 bg-slate-800/40 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-blue-500/30 h-10 sm:h-12"
-                        />
+                      <div>
+                        <Label htmlFor="username" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          Username
+                        </Label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-3 text-slate-500 font-semibold pointer-events-none">@</span>
+                          <Input
+                            id="username"
+                            type="text"
+                            placeholder="username"
+                            value={tempUsername}
+                            onChange={(e) => setTempUsername(e.target.value)}
+                            disabled={isSaving}
+                            className="pl-8 border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:ring-slate-600/20 h-10 sm:h-12"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
 
                 {/* College Information Form */}
-                <div className="bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 sm:p-8">
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <Code className="h-5 w-5 text-blue-400" />
-                    College Information
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                    <div>
-                      <Label htmlFor="branch" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        Branch
-                      </Label>
-                      <Input
-                        id="branch"
-                        type="text"
-                        placeholder="e.g., CSE, ECE"
-                        value={tempBranch}
-                        onChange={(e) => setTempBranch(e.target.value)}
-                        disabled={isSaving}
-                        className="border-slate-700 bg-slate-800/40 text-white placeholder:text-slate-500 focus:border-blue-500 focus:ring-blue-500/30 h-10 sm:h-12"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="semester" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        Semester
-                      </Label>
-                      <select
-                        id="semester"
-                        value={tempSemester}
-                        onChange={(e) => setTempSemester(e.target.value)}
-                        disabled={isSaving}
-                        className="w-full px-3 py-2 sm:py-3 border border-slate-700 rounded-lg bg-slate-800/40 text-white focus:border-blue-500 focus:ring-blue-500/30 disabled:opacity-50 h-10 sm:h-12"
-                      >
-                        <option value="" className="bg-slate-900">Select Semester</option>
-                        <option value="1" className="bg-slate-900">1st Semester</option>
-                        <option value="2" className="bg-slate-900">2nd Semester</option>
-                        <option value="3" className="bg-slate-900">3rd Semester</option>
-                        <option value="4" className="bg-slate-900">4th Semester</option>
-                        <option value="5" className="bg-slate-900">5th Semester</option>
-                        <option value="6" className="bg-slate-900">6th Semester</option>
-                        <option value="7" className="bg-slate-900">7th Semester</option>
-                        <option value="8" className="bg-slate-900">8th Semester</option>
-                      </select>
-                    </div>
-                    <div>
-                      <Label htmlFor="rollNum" className="text-white font-bold mb-2 block text-sm sm:text-base">
-                        Roll Number
-                      </Label>
-                      <div className="relative">
-                        <Hash className="absolute left-3 top-3 h-5 w-5 text-purple-400 pointer-events-none" />
+                <Card className="border-slate-200 bg-white shadow-sm">
+                  <CardContent className="p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-6">College Information</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                      <div>
+                        <Label htmlFor="branch" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          Branch
+                        </Label>
                         <Input
-                          id="rollNum"
+                          id="branch"
                           type="text"
-                          placeholder="e.g., 12345"
-                          value={tempRollNum}
-                          onChange={(e) => setTempRollNum(e.target.value)}
+                          placeholder="e.g., CSE, ECE"
+                          value={tempBranch}
+                          onChange={(e) => setTempBranch(e.target.value)}
                           disabled={isSaving}
-                          className="pl-10 border-slate-700 bg-slate-800/40 text-white placeholder:text-slate-500 focus:border-purple-500 focus:ring-purple-500/30 h-10 sm:h-12"
+                          className="border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:ring-slate-600/20 h-10 sm:h-12"
                         />
                       </div>
+                      <div>
+                        <Label htmlFor="semester" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          Semester
+                        </Label>
+                        <select
+                          id="semester"
+                          value={tempSemester}
+                          onChange={(e) => setTempSemester(e.target.value)}
+                          disabled={isSaving}
+                          className="w-full px-3 py-2 sm:py-3 border border-slate-300 rounded-lg bg-white text-slate-900 focus:border-slate-600 focus:ring-slate-600/20 disabled:opacity-50 h-10 sm:h-12"
+                        >
+                          <option value="">Select Semester</option>
+                          <option value="1">1st Semester</option>
+                          <option value="2">2nd Semester</option>
+                          <option value="3">3rd Semester</option>
+                          <option value="4">4th Semester</option>
+                          <option value="5">5th Semester</option>
+                          <option value="6">6th Semester</option>
+                          <option value="7">7th Semester</option>
+                          <option value="8">8th Semester</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label htmlFor="rollNum" className="text-slate-900 font-semibold mb-2 block text-sm">
+                          Roll Number
+                        </Label>
+                        <div className="relative">
+                          <Hash className="absolute left-3 top-3 h-5 w-5 text-slate-400 pointer-events-none" />
+                          <Input
+                            id="rollNum"
+                            type="text"
+                            placeholder="e.g., 12345"
+                            value={tempRollNum}
+                            onChange={(e) => setTempRollNum(e.target.value)}
+                            disabled={isSaving}
+                            className="pl-10 border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:ring-slate-600/20 h-10 sm:h-12"
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div
+                  </CardContent>
+                </Card>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="flex-1 px-6 sm:px-8 py-3 sm:py-4 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    {isSaving ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span className="hidden sm:inline">Saving...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4" />
+                        Save Changes
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    disabled={isSaving}
+                    className="flex-1 px-6 sm:px-8 py-3 sm:py-4 border border-slate-300 hover:bg-slate-100 disabled:opacity-50 text-slate-900 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    <X className="h-4 w-4" />
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
