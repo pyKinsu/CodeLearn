@@ -317,54 +317,6 @@ export default function DashboardPage() {
             </CardHeader>
           </Card>
 
-          
-            
-      {/* Learning Paths Section */}
-      <section id="learning" className="px-4 py-12 sm:px-6 lg:px-8 border-t border-slate-700/30">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12">
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
-              Start <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Learning</span>
-            </h2>
-            <p className="text-slate-400">Choose your learning path and master programming</p>
-          </div>
-
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-max">
-            {learningCards.map((card, index) => {
-              const Icon = card.icon;
-              return (
-                <Card
-                  key={card.title}
-                  className="border-slate-700/50 bg-slate-800/30 backdrop-blur-sm hover:border-slate-600/80 hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden relative"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-l ${card.color} opacity-10 group-hover:opacity-20 transition-opacity blur-3xl`}></div>
-                  <CardHeader className="relative">
-                    <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${card.color} text-white shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110`}>
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="text-lg sm:text-xl text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all">
-                      {card.title}
-                    </CardTitle>
-                    <CardDescription className="text-slate-400 group-hover:text-slate-300 transition-colors">
-                      {card.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="relative">
-                    <Link href={card.link}>
-                      <Button className={`w-full bg-gradient-to-r ${card.color} hover:shadow-lg transition-all text-white border-0 group-hover:translate-y-1 duration-300`}>
-                        Get Started
-                        <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
           {/* Profile Cards - Show Below Welcome on Mobile */}
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
             {/* Profile Card */}
@@ -417,6 +369,56 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
+
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Paths Section */}
+      <section id="learning" className="px-4 py-12 sm:px-6 lg:px-8 border-t border-slate-700/30">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12">
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
+              Start <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Learning</span>
+            </h2>
+            <p className="text-slate-400">Choose your learning path and master programming</p>
+          </div>
+
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-max">
+            {learningCards.map((card, index) => {
+              const Icon = card.icon;
+              return (
+                <Card
+                  key={card.title}
+                  className="border-slate-700/50 bg-slate-800/30 backdrop-blur-sm hover:border-slate-600/80 hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden relative"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-l ${card.color} opacity-10 group-hover:opacity-20 transition-opacity blur-3xl`}></div>
+                  <CardHeader className="relative">
+                    <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${card.color} text-white shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110`}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-lg sm:text-xl text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all">
+                      {card.title}
+                    </CardTitle>
+                    <CardDescription className="text-slate-400 group-hover:text-slate-300 transition-colors">
+                      {card.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative">
+                    <Link href={card.link}>
+                      <Button className={`w-full bg-gradient-to-r ${card.color} hover:shadow-lg transition-all text-white border-0 group-hover:translate-y-1 duration-300`}>
+                        Get Started
+                        <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* Footer CTA */}
       <section className="px-4 py-12 sm:px-6 lg:px-8 border-t border-slate-700/30">
