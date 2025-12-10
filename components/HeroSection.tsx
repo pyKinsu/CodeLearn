@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { BookOpen, Code, Trophy, Users, ArrowRight, Brain, Flame, TrendingUp, Sparkles } from 'lucide-react';
+import { BookOpen, Code, Trophy, Users, ArrowRight, Brain, Flame, CheckCircle, TrendingUp, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 interface HeroSectionProps {}
