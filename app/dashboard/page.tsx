@@ -39,13 +39,6 @@ export default function DashboardPage() {
           const count = await getCompletedQuizzesCount(user.uid);
           const weekly = await getWeeklyCompletedQuizzes(user.uid);
           
-          setCompletedQuizzesCount(count);
-          setWeeklyQuizzes(weekly);
-          
-          // Calculate total questions attempted
-          const totalQuestions = weekly.reduce((acc, quiz) => acc + (quiz.totalQuestions || 0), 0);
-          setTotalQuestionsAttempted(totalQuestions);
-          
           setProfileLoading(false);
         } catch (error) {
           console.error('Error fetching profile:', error);
