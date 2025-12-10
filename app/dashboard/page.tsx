@@ -35,9 +35,6 @@ export default function DashboardPage() {
           const profile = await getUserProfile(user.uid);
           setUserProfile(profile);
           
-          // Fetch completed quizzes
-          const count = await getCompletedQuizzesCount(user.uid);
-          const weekly = await getWeeklyCompletedQuizzes(user.uid);
           
           setProfileLoading(false);
         } catch (error) {
