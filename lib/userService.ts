@@ -9,7 +9,7 @@ export interface UserProfile {
   username?: string;
   branch?: string;
   semester?: string;
-  year?: string;
+  rollNum?: string;
   avatarUrl?: string;
   uid: string;
   createdAt?: string;
