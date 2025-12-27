@@ -18,7 +18,6 @@ export default function DashboardPage() {
   const [profileLoading, setProfileLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
- 
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -34,8 +33,6 @@ export default function DashboardPage() {
         try {
           const profile = await getUserProfile(user.uid);
           setUserProfile(profile);
-          
-          
           setProfileLoading(false);
         } catch (error) {
           console.error('Error fetching profile:', error);
@@ -70,10 +67,10 @@ export default function DashboardPage() {
   // Show loading state while checking authentication
   if (loading || profileLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+      <div className="flex min-h-screen items-center justify-center bg-white">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
-          <p className="text-slate-300">Loading dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -89,73 +86,64 @@ export default function DashboardPage() {
       title: 'Learn C',
       description: 'Master C fundamentals and advanced concepts',
       icon: Code,
-      color: 'from-blue-500 to-blue-600',
       link: '#',
     },
     {
       title: 'Learn C++',
       description: 'Object-oriented programming with C++',
       icon: Code,
-      color: 'from-cyan-500 to-cyan-600',
       link: '#',
     },
     {
       title: 'Learn Python',
       description: 'Versatile Python for all applications',
       icon: Code,
-      color: 'from-yellow-500 to-yellow-600',
       link: '#',
     },
     {
       title: 'Learn Java',
       description: 'Enterprise-grade Java development',
       icon: Code,
-      color: 'from-orange-500 to-orange-600',
       link: '#',
     },
     {
       title: 'Read Books',
       description: 'Comprehensive programming books and guides',
       icon: BookOpen,
-      color: 'from-purple-500 to-purple-600',
       link: '#',
     },
     {
       title: 'Code Examples',
       description: 'Real-world code examples for all languages',
       icon: Zap,
-      color: 'from-pink-500 to-pink-600',
       link: '#',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-white">
       {/* Professional Header */}
-      <header className="sticky top-0 z-50 border-b border-slate-700/50 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 backdrop-blur-xl shadow-lg">
-        <div className="px-4 py-3 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+        <div className="px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo Section */}
             <Link href="/dashboard" className="flex items-center gap-3 group flex-1 sm:flex-none">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur-md opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div className="relative bg-slate-950 px-3 py-2 rounded-lg">
-                  <Code className="h-6 w-6 text-blue-400" />
-                </div>
-              </div>
               <div className="flex flex-col">
-                <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  CodeLearn
-                </h1>
-                <p className="text-xs text-slate-400 hidden sm:block">Master Programming</p>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-black tracking-tight">
+                    CodeLearn
+                  </h1>
+                  <span className="inline-block px-2 py-1 bg-black text-white text-xs font-bold rounded">BETA</span>
+                </div>
+                <p className="text-xs text-gray-500 hidden sm:block">Master Programming</p>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-8 flex-1 justify-center">
-              <a href="#learning" className="text-slate-300 hover:text-white transition-colors font-medium text-sm border-b-2 border-transparent hover:border-blue-400 pb-1">Courses</a>
-              <Link href="/profile" className="text-slate-300 hover:text-white transition-colors font-medium text-sm border-b-2 border-transparent hover:border-blue-400 pb-1">Profile</Link>
-              <Link href="/help" className="text-slate-300 hover:text-white transition-colors font-medium text-sm border-b-2 border-transparent hover:border-blue-400 pb-1">Help</Link>
+              <a href="#learning" className="text-gray-600 hover:text-black transition-colors font-medium text-sm border-b-2 border-transparent hover:border-black pb-1">Courses</a>
+              <Link href="/profile" className="text-gray-600 hover:text-black transition-colors font-medium text-sm border-b-2 border-transparent hover:border-black pb-1">Profile</Link>
+              <Link href="/help" className="text-gray-600 hover:text-black transition-colors font-medium text-sm border-b-2 border-transparent hover:border-black pb-1">Help</Link>
             </nav>
 
             {/* Right Side - Avatar & Menu */}
@@ -163,69 +151,69 @@ export default function DashboardPage() {
               {/* Avatar - Desktop */}
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 p-2 rounded-xl hover:bg-slate-800/50 transition-all group hidden sm:flex"
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-all group hidden sm:flex"
               >
                 <img
                   src={avatarUrl}
                   alt={`${userProfile?.firstName} ${userProfile?.lastName}`}
-                  className="h-10 w-10 rounded-full object-cover border-2 border-blue-400 group-hover:border-purple-400 transition-colors shadow-lg"
+                  className="h-10 w-10 rounded-full object-cover border-2 border-black group-hover:border-gray-400 transition-colors shadow-sm"
                 />
                 <div className="text-left hidden md:block">
-                  <p className="text-sm font-semibold text-white leading-tight">
+                  <p className="text-sm font-semibold text-black leading-tight">
                     {userProfile?.firstName}
                   </p>
-                  <p className="text-xs text-slate-500">Student</p>
+                  <p className="text-xs text-gray-500">Student</p>
                 </div>
               </button>
 
               {/* Avatar - Mobile */}
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex sm:hidden h-10 w-10 items-center justify-center rounded-full hover:shadow-lg hover:shadow-blue-500/30 transition-all overflow-hidden"
+                className="flex sm:hidden h-10 w-10 items-center justify-center rounded-full hover:shadow-md transition-all overflow-hidden"
               >
                 <img
                   src={avatarUrl}
                   alt={`${userProfile?.firstName} ${userProfile?.lastName}`}
-                  className="h-full w-full rounded-full object-cover border-2 border-blue-400"
+                  className="h-full w-full rounded-full object-cover border-2 border-black"
                 />
               </button>
 
               {/* Dropdown Menu */}
               {dropdownOpen && (
-                <div className="absolute right-4 top-20 sm:right-6 w-80 bg-slate-800/95 rounded-xl shadow-2xl border border-slate-700/50 backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div className="p-5 border-b border-slate-700/30 bg-gradient-to-r from-slate-800 to-slate-900">
+                <div className="absolute right-4 top-16 sm:right-6 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="p-5 border-b border-gray-200 bg-gray-50">
                     <div className="flex items-center gap-3 mb-3">
                       <img
                         src={avatarUrl}
                         alt={`${userProfile?.firstName} ${userProfile?.lastName}`}
-                        className="h-12 w-12 rounded-full object-cover border-2 border-blue-400"
+                        className="h-12 w-12 rounded-full object-cover border-2 border-black"
                       />
                       <div className="flex-1">
-                        <p className="font-bold text-white text-sm">{userProfile?.firstName} {userProfile?.lastName}</p>
-                        <p className="text-xs text-slate-500 mt-1">{userProfile?.email}</p>
+                        <p className="font-bold text-black text-sm">{userProfile?.firstName} {userProfile?.lastName}</p>
+                        <p className="text-xs text-gray-500 mt-1">{userProfile?.email}</p>
                       </div>
                     </div>
-                    <p className="text-xs text-slate-500">Member since {userProfile?.createdAt ? new Date(userProfile.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : 'Today'}</p>
+                    <p className="text-xs text-gray-500">Member since {userProfile?.createdAt ? new Date(userProfile.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : 'Today'}</p>
                   </div>
                   <Link href="/profile" onClick={() => setDropdownOpen(false)}>
-                    <div className="flex items-center gap-3 px-5 py-3 text-slate-300 hover:bg-slate-700/50 hover:text-white cursor-pointer transition-colors">
+                    <div className="flex items-center gap-3 px-5 py-3 text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                       <User className="h-4 w-4" />
                       <span className="text-sm font-medium">View Profile</span>
                     </div>
                   </Link>
                   <Link href="/profile" onClick={() => setDropdownOpen(false)}>
-                    <div className="flex items-center gap-3 px-5 py-3 text-slate-300 hover:bg-slate-700/50 hover:text-white cursor-pointer transition-colors">
+                    <div className="flex items-center gap-3 px-5 py-3 text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                       <Settings className="h-4 w-4" />
                       <span className="text-sm font-medium">Edit Profile</span>
                     </div>
                   </Link>
-                  <div className="border-t border-slate-700/30"></div>
+                  <div className="border-t border-gray-200"></div>
                   <button
                     onClick={() => {
                       setDropdownOpen(false);
                       handleLogout();
                     }}
-                    className="w-full flex items-center gap-3 px-5 py-3 text-red-400 hover:bg-slate-700/50 cursor-pointer transition-colors text-sm font-medium"
+                    className="w-full flex items-center gap-3 px-5 py-3 text-red-600 hover:bg-gray-100 cursor-pointer transition-colors text-sm font-medium"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Logout</span>
@@ -236,12 +224,12 @@ export default function DashboardPage() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg hover:bg-slate-800 transition-colors"
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 {mobileMenuOpen ? (
-                  <X className="h-6 w-6 text-white" />
+                  <X className="h-6 w-6 text-black" />
                 ) : (
-                  <Menu className="h-6 w-6 text-white" />
+                  <Menu className="h-6 w-6 text-black" />
                 )}
               </button>
             </div>
@@ -249,27 +237,27 @@ export default function DashboardPage() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <nav className="mt-4 space-y-1 pb-4 border-t border-slate-700/30 pt-4 animate-in fade-in slide-in-from-top-2 duration-300 lg:hidden">
+            <nav className="mt-4 space-y-1 pb-4 border-t border-gray-200 pt-4 animate-in fade-in slide-in-from-top-2 duration-300 lg:hidden">
               <a href="#learning" onClick={() => setMobileMenuOpen(false)}>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white cursor-pointer transition-colors">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                   <Code className="h-5 w-5" />
                   <span className="font-medium">Courses</span>
                 </div>
               </a>
               <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white cursor-pointer transition-colors">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                   <User className="h-5 w-5" />
                   <span className="font-medium">My Profile</span>
                 </div>
               </Link>
               <Link href="/help" onClick={() => setMobileMenuOpen(false)}>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white cursor-pointer transition-colors">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                   <HelpCircle className="h-5 w-5" />
                   <span className="font-medium">Help</span>
                 </div>
               </Link>
               <Link href="/terms" onClick={() => setMobileMenuOpen(false)}>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white cursor-pointer transition-colors">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                   <FileText className="h-5 w-5" />
                   <span className="font-medium">Terms</span>
                 </div>
@@ -279,7 +267,7 @@ export default function DashboardPage() {
                   setMobileMenuOpen(false);
                   handleLogout();
                 }}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-slate-800/50 cursor-pointer transition-colors font-medium mt-2 border-t border-slate-700/30 pt-4"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-gray-100 cursor-pointer transition-colors font-medium mt-2 border-t border-gray-200 pt-4"
               >
                 <LogOut className="h-5 w-5" />
                 <span>Logout</span>
@@ -290,85 +278,138 @@ export default function DashboardPage() {
       </header>
 
       {/* Welcome Section */}
-      <section className="px-4 py-8 sm:px-6 lg:px-8">
+      <section className="px-4 py-8 sm:px-6 lg:px-8 bg-gray-50">
         <div className="mx-auto max-w-7xl">
           {/* Welcome Card */}
-          <Card className="border-0 bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+          <Card className="border-0 bg-black text-white shadow-lg mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
             <CardHeader>
-              <CardTitle className="text-2xl sm:text-3xl text-white">
+              <CardTitle className="text-2xl sm:text-3xl">
                 Welcome back, {userProfile?.firstName}! 👋
               </CardTitle>
-              <CardDescription className="text-blue-100 mt-2">
+              <CardDescription className="text-gray-300 mt-2">
                 Continue your learning journey and explore new programming languages
               </CardDescription>
             </CardHeader>
           </Card>
 
-          {/* Profile Cards - Show Below Welcome on Mobile */}
-          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-            {/* Profile Card */}
-            <Card className="border-slate-700/50 bg-slate-800/50 backdrop-blur-sm hover:border-slate-600/80 transition-all duration-300 shadow-md">
-              <CardHeader>
-                <CardTitle className="text-lg text-white">Profile Summary</CardTitle>
+          {/* Profile Cards */}
+          <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 mb-8">
+            {/* Combined Quiz Attempts & Questions Card */}
+            <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
+              <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
+                <CardTitle className="text-sm sm:text-lg text-black">Quiz Activity</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-center">
-                  <img
-                    src={avatarUrl}
-                    alt={`${userProfile?.firstName} ${userProfile?.lastName}`}
-                    className="h-20 w-20 rounded-full object-cover border-4 border-blue-500 shadow-lg"
-                  />
+              <CardContent className="space-y-2 pt-0 pb-3 px-3 sm:pb-4 sm:px-4">
+                <div>
+                  <p className="text-xs text-gray-600 font-semibold mb-0.5">Total Attempts</p>
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">15</p>
+                  <p className="text-xs text-gray-500">quizzes taken</p>
                 </div>
-                <div className="text-center">
-                  <p className="font-semibold text-slate-100">
-                    {userProfile?.firstName} {userProfile?.lastName}
+                <div className="border-t border-gray-200 pt-2">
+                  <p className="text-xs text-gray-600 font-semibold mb-0.5">Questions Attempted</p>
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">75</p>
+                  <p className="text-xs text-gray-500">questions</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Stats Card - Correct and Wrong */}
+            <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
+              <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
+                <CardTitle className="text-sm sm:text-lg text-black">Stats</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-1.5 pt-0 pb-3 px-3 sm:pb-4 sm:px-4 sm:space-y-2">
+                <div>
+                  <p className="text-xs text-gray-600 font-semibold mb-0.5">Total Score</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">63</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600 font-semibold mb-0.5">Avg Score</p>
+                  <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-black">84%</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Correct & Wrong Answers Card */}
+            <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
+              <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
+                <CardTitle className="text-sm sm:text-lg text-black">Answers</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-1.5 pt-0 pb-3 px-3 sm:pb-4 sm:px-4 sm:space-y-2">
+                <div>
+                  <p className="text-xs text-gray-600 font-semibold mb-0.5">Correct</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">63</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-600 font-semibold mb-0.5">Wrong</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">12</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Combined Profile & Account Card */}
+            <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
+              <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
+                <CardTitle className="text-sm sm:text-lg text-black">Profile & Account</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 pt-0 pb-3 px-3 sm:pb-4 sm:px-4">
+                {/* Profile Section */}
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <img
+                      src={avatarUrl}
+                      alt={`${userProfile?.firstName} ${userProfile?.lastName}`}
+                      className="h-12 w-12 rounded-full object-cover border-3 border-black shadow-md flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-black text-xs sm:text-sm truncate">
+                        {userProfile?.firstName} {userProfile?.lastName}
+                      </p>
+                      <p className="text-xs text-gray-600 truncate">{userProfile?.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Account Section */}
+                <div className="space-y-1.5">
+                  <p className="text-xs text-gray-600 font-semibold">Member Since</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-black">
+                    {userProfile?.createdAt
+                      ? new Date(userProfile.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                      : 'Today'}
                   </p>
-                  <p className="text-sm text-slate-400 truncate">{userProfile?.email}</p>
-                  {userProfile?.username && <p className="text-xs text-slate-500 mt-1">@{userProfile?.username}</p>}
                 </div>
+
+                {/* Status */}
+                <div>
+                  <p className="text-xs text-gray-600 font-semibold mb-1">Status</p>
+                  <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold border border-green-300">
+                    <span className="w-1.5 h-1.5 bg-green-700 rounded-full animate-pulse"></span>
+                    Active
+                  </div>
+                </div>
+
+                {/* Edit Button */}
                 <Link href="/profile" className="block">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                    <Settings className="h-4 w-4 mr-2" />
+                  <Button className="w-full bg-black hover:bg-gray-800 text-white text-xs py-1.5 sm:py-2 h-7 sm:h-8">
+                    <Settings className="h-3 w-3 mr-1" />
                     Edit Profile
                   </Button>
                 </Link>
               </CardContent>
             </Card>
-
-            {/* Member Since Card */}
-            <Card className="border-slate-700/50 bg-slate-800/50 backdrop-blur-sm hover:border-slate-600/80 transition-all duration-300 shadow-md">
-              <CardHeader>
-                <CardTitle className="text-lg text-white">Member Since</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-3xl font-bold text-blue-400">
-                  {userProfile?.createdAt
-                    ? new Date(userProfile.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                    : 'Today'}
-                </p>
-                <div>
-                  <p className="text-sm text-slate-400 mb-2">Status</p>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-sm font-semibold border border-green-500/20">
-                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    Active
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-
           </div>
         </div>
       </section>
 
       {/* Learning Paths Section */}
-      <section id="learning" className="px-4 py-12 sm:px-6 lg:px-8 border-t border-slate-700/30">
+      <section id="learning" className="px-4 py-12 sm:px-6 lg:px-8 border-t border-gray-200">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12">
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">
-              Start <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Learning</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-black mb-2">
+              Start <span className="text-gray-600">Learning</span>
             </h2>
-            <p className="text-slate-400">Choose your learning path and master programming</p>
+            <p className="text-gray-600">Choose your learning path and master programming</p>
           </div>
 
           <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-max">
@@ -377,24 +418,23 @@ export default function DashboardPage() {
               return (
                 <Card
                   key={card.title}
-                  className="border-slate-700/50 bg-slate-800/30 backdrop-blur-sm hover:border-slate-600/80 hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden relative"
+                  className="border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group overflow-hidden"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-l ${card.color} opacity-10 group-hover:opacity-20 transition-opacity blur-3xl`}></div>
                   <CardHeader className="relative">
-                    <div className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${card.color} text-white shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110`}>
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white shadow-md group-hover:shadow-lg transition-all duration-300 transform group-hover:scale-110">
                       <Icon className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-lg sm:text-xl text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all">
+                    <CardTitle className="text-lg sm:text-xl text-black group-hover:text-gray-700 transition-all">
                       {card.title}
                     </CardTitle>
-                    <CardDescription className="text-slate-400 group-hover:text-slate-300 transition-colors">
+                    <CardDescription className="text-gray-600 group-hover:text-gray-700 transition-colors">
                       {card.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="relative">
                     <Link href={card.link}>
-                      <Button className={`w-full bg-gradient-to-r ${card.color} hover:shadow-lg transition-all text-white border-0 group-hover:translate-y-1 duration-300`}>
+                      <Button className="w-full bg-black hover:bg-gray-800 text-white transition-all group-hover:translate-y-1 duration-300">
                         Get Started
                         <ChevronRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
                       </Button>
@@ -408,21 +448,21 @@ export default function DashboardPage() {
       </section>
 
       {/* Footer CTA */}
-      <section className="px-4 py-12 sm:px-6 lg:px-8 border-t border-slate-700/30">
+      <section className="px-4 py-12 sm:px-6 lg:px-8 border-t border-gray-200 bg-gray-50">
         <div className="mx-auto max-w-7xl text-center">
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Level Up?</h3>
-          <p className="text-slate-400 mb-6 max-w-2xl mx-auto">
+          <h3 className="text-2xl sm:text-3xl font-bold text-black mb-4">Ready to Level Up?</h3>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
             Start with any language and progress at your own pace with our interactive lessons and quizzes
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#learning">
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg">
+              <Button className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white shadow-lg">
                 Explore Courses
                 <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
             </a>
             <Link href="/help">
-              <Button variant="outline" className="w-full sm:w-auto border-slate-600 text-white hover:bg-slate-800/50">
+              <Button variant="outline" className="w-full sm:w-auto border-gray-300 text-black hover:bg-gray-100">
                 Need Help?
               </Button>
             </Link>
