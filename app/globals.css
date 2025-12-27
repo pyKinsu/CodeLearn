@@ -120,3 +120,141 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Spinner Css */
+
+.spinner {
+  width: 160px;
+  height: 160px;
+  position: fixed;
+  border-radius: 1000px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.spin1{
+
+  width: 140px;
+  border: 10px solid #383568;
+  height: 140px;
+  position: relative;
+  border-radius: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 1.8s linear infinite;
+}
+
+.spin2{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-left-color: #8580cf;
+
+}
+
+.spin3{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-right-color: orange;
+  rotate: 70deg;
+  z-index: 10;
+
+}
+
+.spin4{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-right-color: orange;
+  rotate: 70deg;
+  z-index: 10;
+
+}
+
+.spin5{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-top-color: #383568;
+  rotate: 218deg;
+  z-index: 20;
+
+}
+
+.spin6{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-top-color: #8580cf;
+  rotate: 275deg;
+  z-index: 20;
+
+}
+
+.spin7{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-top-color: #bcb4a7;
+  rotate: 32deg;
+  z-index: 30;
+}
+
+.spin8{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-top-color: #373568;
+  rotate: -28deg;
+  z-index: 30;
+
+}
+
+.spin9{
+
+  border: 10px solid #383568;
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-color: transparent;
+  border-radius: 50%;
+  border-top-color: #373568;
+  rotate: 41deg;
+  z-index: 25;
+
+}
