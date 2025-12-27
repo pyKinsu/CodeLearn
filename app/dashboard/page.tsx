@@ -8,6 +8,7 @@ import { auth } from '@/lib/firebase';
 import { useAuth } from '@/lib/authContext';
 import { Button } from '@/components/ui/button';
 import { getUserProfile } from '@/lib/userService';
+import { getUserQuizStats } from '@/lib/quizService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Menu, X, LogOut, Settings, FileText, HelpCircle, User, Code, BookOpen, Zap, ChevronRight, Award, BarChart3 } from 'lucide-react';
 
@@ -18,6 +19,17 @@ export default function DashboardPage() {
   const [profileLoading, setProfileLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+  // NEW: Quiz stats state
+  const [quizStats, setQuizStats] = useState({
+    totalAttempts: 0,
+    totalQuestions: 0,
+    correctAnswers: 0,
+    wrongAnswers: 0,
+    averageScore: 0,
+    languageStats: {}
+  });
+  const [statsLoading, setStatsLoading] = useState(true);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -40,6 +52,23 @@ export default function DashboardPage() {
         }
       };
       fetchProfile();
+    }
+  }, [user]);
+
+  // NEW: Fetch quiz statistics
+  useEffect(() => {
+    if (user) {
+      const fetchQuizStats = async () => {
+        try {
+          const stats = await getUserQuizStats(user.uid);
+          setQuizStats(stats);
+          setStatsLoading(false);
+        } catch (error) {
+          console.error('Error fetching quiz stats:', error);
+          setStatsLoading(false);
+        }
+      };
+      fetchQuizStats();
     }
   }, [user]);
 
@@ -86,37 +115,43 @@ export default function DashboardPage() {
       title: 'Learn C',
       description: 'Master C fundamentals and advanced concepts',
       icon: Code,
-      link: '#',
+      link: '/c-quiz',
+      image: 'https://img.icons8.com/color/96/c-programming.png'
     },
     {
       title: 'Learn C++',
       description: 'Object-oriented programming with C++',
       icon: Code,
-      link: '#',
+      link: '/cpp-quiz',
+      image: 'https://img.icons8.com/color/96/c-plus-plus-logo.png'
     },
     {
       title: 'Learn Python',
       description: 'Versatile Python for all applications',
       icon: Code,
-      link: '#',
+      link: '/python-quiz',
+      image: 'https://img.icons8.com/color/96/python--v1.png'
     },
     {
       title: 'Learn Java',
       description: 'Enterprise-grade Java development',
       icon: Code,
-      link: '#',
+      link: '/java-quiz',
+      image: 'https://img.icons8.com/color/96/java-coffee-cup-logo--v1.png'
     },
     {
       title: 'Read Books',
       description: 'Comprehensive programming books and guides',
       icon: BookOpen,
       link: '#',
+      image: null
     },
     {
       title: 'Code Examples',
       description: 'Real-world code examples for all languages',
       icon: Zap,
       link: '#',
+      image: null
     },
   ];
 
@@ -287,12 +322,15 @@ export default function DashboardPage() {
                 Welcome back, {userProfile?.firstName}! 👋
               </CardTitle>
               <CardDescription className="text-gray-300 mt-2">
-                Continue your learning journey and explore new programming languages
+                {quizStats.totalAttempts > 0 
+                  ? `You've completed ${quizStats.totalAttempts} quiz${quizStats.totalAttempts > 1 ? 'es' : ''} with an average score of ${Math.round(quizStats.averageScore)}%!`
+                  : 'Start your learning journey by taking your first quiz!'
+                }
               </CardDescription>
             </CardHeader>
           </Card>
 
-          {/* Profile Cards */}
+          {/* Profile Cards - NOW WITH REAL DATA */}
           <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 mb-8">
             {/* Combined Quiz Attempts & Questions Card */}
             <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
@@ -302,12 +340,16 @@ export default function DashboardPage() {
               <CardContent className="space-y-2 pt-0 pb-3 px-3 sm:pb-4 sm:px-4">
                 <div>
                   <p className="text-xs text-gray-600 font-semibold mb-0.5">Total Attempts</p>
-                  <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">15</p>
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">
+                    {statsLoading ? '...' : quizStats.totalAttempts}
+                  </p>
                   <p className="text-xs text-gray-500">quizzes taken</p>
                 </div>
                 <div className="border-t border-gray-200 pt-2">
                   <p className="text-xs text-gray-600 font-semibold mb-0.5">Questions Attempted</p>
-                  <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">75</p>
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black">
+                    {statsLoading ? '...' : quizStats.totalQuestions}
+                  </p>
                   <p className="text-xs text-gray-500">questions</p>
                 </div>
               </CardContent>
@@ -321,11 +363,15 @@ export default function DashboardPage() {
               <CardContent className="space-y-1.5 pt-0 pb-3 px-3 sm:pb-4 sm:px-4 sm:space-y-2">
                 <div>
                   <p className="text-xs text-gray-600 font-semibold mb-0.5">Total Score</p>
-                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">63</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">
+                    {statsLoading ? '...' : quizStats.correctAnswers}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 font-semibold mb-0.5">Avg Score</p>
-                  <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-black">84%</p>
+                  <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-black">
+                    {statsLoading ? '...' : `${Math.round(quizStats.averageScore)}%`}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -338,11 +384,15 @@ export default function DashboardPage() {
               <CardContent className="space-y-1.5 pt-0 pb-3 px-3 sm:pb-4 sm:px-4 sm:space-y-2">
                 <div>
                   <p className="text-xs text-gray-600 font-semibold mb-0.5">Correct</p>
-                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">63</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600">
+                    {statsLoading ? '...' : quizStats.correctAnswers}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 font-semibold mb-0.5">Wrong</p>
-                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">12</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-600">
+                    {statsLoading ? '...' : quizStats.wrongAnswers}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -422,8 +472,14 @@ export default function DashboardPage() {
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <CardHeader className="relative">
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white shadow-md group-hover:shadow-lg transition-all duration-300 transform group-hover:scale-110">
-                      <Icon className="h-6 w-6" />
+                    <div className="mb-4 flex items-center gap-3">
+                      {card.image ? (
+                        <img src={card.image} alt={card.title} className="w-12 h-12" />
+                      ) : (
+                        <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-black text-white shadow-md group-hover:shadow-lg transition-all duration-300 transform group-hover:scale-110">
+                          <Icon className="h-6 w-6" />
+                        </div>
+                      )}
                     </div>
                     <CardTitle className="text-lg sm:text-xl text-black group-hover:text-gray-700 transition-all">
                       {card.title}
