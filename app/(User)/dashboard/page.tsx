@@ -7,10 +7,12 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/lib/authContext';
 import { Button } from '@/components/ui/button';
-import { getUserProfile } from '@/lib/userService';
+import { getUserProfile, updateUserProfile } from '@/lib/userService';
 import { getUserQuizStats } from '@/lib/quizService';
+import { ensureDefaultAvatar } from '@/lib/userService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Menu, X, LogOut, Settings, FileText, HelpCircle, User, Code, BookOpen, Zap, ChevronRight, Award, BarChart3 } from 'lucide-react';
+import PageLoader from '@/components/PageLoader';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -20,7 +22,6 @@ export default function DashboardPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   
-  // NEW: Quiz stats state
   const [quizStats, setQuizStats] = useState({
     totalAttempts: 0,
     totalQuestions: 0,
@@ -31,20 +32,24 @@ export default function DashboardPage() {
   });
   const [statsLoading, setStatsLoading] = useState(true);
 
-  // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
   }, [user, loading, router]);
 
-  // Fetch user profile from Firestore
   useEffect(() => {
     if (user) {
       const fetchProfile = async () => {
         try {
           const profile = await getUserProfile(user.uid);
           setUserProfile(profile);
+          
+          // Ensure default avatar is set
+          if (profile) {
+            await ensureDefaultAvatar(user.uid, profile.firstName, profile.lastName);
+          }
+          
           setProfileLoading(false);
         } catch (error) {
           console.error('Error fetching profile:', error);
@@ -55,12 +60,14 @@ export default function DashboardPage() {
     }
   }, [user]);
 
-  // NEW: Fetch quiz statistics
   useEffect(() => {
     if (user) {
       const fetchQuizStats = async () => {
         try {
           const stats = await getUserQuizStats(user.uid);
+          console.log('Quiz stats fetched:', stats);
+          console.log('Average score value:', stats.averageScore);
+          console.log('Type of averageScore:', typeof stats.averageScore);
           setQuizStats(stats);
           setStatsLoading(false);
         } catch (error) {
@@ -81,11 +88,6 @@ export default function DashboardPage() {
     }
   };
 
-  const getInitials = (firstName?: string, lastName?: string) => {
-    if (!firstName || !lastName) return 'U';
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-  };
-
   const getRoboHashUrl = (name: string) => {
     const hashString = name.replace(/\s+/g, '') || 'user';
     return `https://robohash.org/${hashString}?size=200x200&set=set1`;
@@ -93,19 +95,10 @@ export default function DashboardPage() {
 
   const avatarUrl = userProfile?.avatarUrl || getRoboHashUrl(`${userProfile?.firstName || 'User'} ${userProfile?.lastName || ''}`);
 
-  // Show loading state while checking authentication
   if (loading || profileLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
-        </div>
-      </div>
-    );
+    return <PageLoader />;
   }
 
-  // Don't render if not authenticated
   if (!user) {
     return null;
   }
@@ -236,7 +229,7 @@ export default function DashboardPage() {
                       <span className="text-sm font-medium">View Profile</span>
                     </div>
                   </Link>
-                  <Link href="/profile" onClick={() => setDropdownOpen(false)}>
+                  <Link href="/edit-profile" onClick={() => setDropdownOpen(false)}>
                     <div className="flex items-center gap-3 px-5 py-3 text-gray-600 hover:bg-gray-100 hover:text-black cursor-pointer transition-colors">
                       <Settings className="h-4 w-4" />
                       <span className="text-sm font-medium">Edit Profile</span>
@@ -330,9 +323,9 @@ export default function DashboardPage() {
             </CardHeader>
           </Card>
 
-          {/* Profile Cards - NOW WITH REAL DATA */}
+          {/* Profile Cards */}
           <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 mb-8">
-            {/* Combined Quiz Attempts & Questions Card */}
+            {/* Quiz Activity Card */}
             <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
               <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
                 <CardTitle className="text-sm sm:text-lg text-black">Quiz Activity</CardTitle>
@@ -355,7 +348,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Stats Card - Correct and Wrong */}
+            {/* Stats Card */}
             <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
               <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
                 <CardTitle className="text-sm sm:text-lg text-black">Stats</CardTitle>
@@ -376,7 +369,7 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Correct & Wrong Answers Card */}
+            {/* Answers Card */}
             <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
               <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
                 <CardTitle className="text-sm sm:text-lg text-black">Answers</CardTitle>
@@ -397,13 +390,12 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Combined Profile & Account Card */}
+            {/* Profile & Account Card */}
             <Card className="border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300 col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2">
               <CardHeader className="pb-2 pt-3 px-3 sm:pt-4 sm:px-4">
                 <CardTitle className="text-sm sm:text-lg text-black">Profile & Account</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 pt-0 pb-3 px-3 sm:pb-4 sm:px-4">
-                {/* Profile Section */}
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     <img
@@ -420,7 +412,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Account Section */}
                 <div className="space-y-1.5">
                   <p className="text-xs text-gray-600 font-semibold">Member Since</p>
                   <p className="text-2xl sm:text-3xl font-bold text-black">
@@ -430,7 +421,6 @@ export default function DashboardPage() {
                   </p>
                 </div>
 
-                {/* Status */}
                 <div>
                   <p className="text-xs text-gray-600 font-semibold mb-1">Status</p>
                   <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold border border-green-300">
@@ -439,8 +429,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Edit Button */}
-                <Link href="/profile" className="block">
+                <Link href="/edit-profile" className="block">
                   <Button className="w-full bg-black hover:bg-gray-800 text-white text-xs py-1.5 sm:py-2 h-7 sm:h-8">
                     <Settings className="h-3 w-3 mr-1" />
                     Edit Profile

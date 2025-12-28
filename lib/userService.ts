@@ -59,3 +59,33 @@ export async function updateUserProfile(
     throw error;
   }
 }
+
+export async function ensureDefaultAvatar(uid: string, firstName: string, lastName: string) {
+  try {
+    const userDoc = await getDoc(doc(db, 'users', uid));
+    
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      
+      // If no avatar URL exists, generate and save default RoboHash
+      if (!userData.avatarUrl) {
+        const hashString = `${firstName}${lastName}`.replace(/\s+/g, '') || 'user';
+        const roboHashUrl = `https://robohash.org/${hashString}?size=200x200&set=set1`;
+        
+        await updateDoc(doc(db, 'users', uid), {
+          avatarUrl: roboHashUrl,
+          updatedAt: new Date().toISOString(),
+        });
+        
+        return roboHashUrl;
+      }
+      
+      return userData.avatarUrl;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error ensuring default avatar:', error);
+    return null;
+  }
+}
