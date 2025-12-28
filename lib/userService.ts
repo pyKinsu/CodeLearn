@@ -14,15 +14,34 @@ export interface UserProfile {
   uid: string;
   createdAt?: string;
   updatedAt?: string;
+  
+  // Social Media
+  github?: string;
+  linkedin?: string;
+  instagram?: string;
+  reddit?: string;
+  discord?: string;
+  
+  // Streak
+  streak?: number;
+  lastLoginDate?: string;
 }
+
 export async function createUserProfile(
   uid: string,
-  userData: Omit<UserProfile, 'uid' | 'createdAt' | 'updatedAt'>
+  userData: Omit<UserProfile, 'uid' | 'createdAt' | 'updatedAt' | 'streak' | 'lastLoginDate'>
 ) {
   try {
     await setDoc(doc(db, 'users', uid), {
       ...userData,
       uid,
+      github: userData.github || '',
+      linkedin: userData.linkedin || '',
+      instagram: userData.instagram || '',
+      reddit: userData.reddit || '',
+      discord: userData.discord || '',
+      streak: 0,
+      lastLoginDate: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
