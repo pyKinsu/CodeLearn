@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Download, ChevronDown, Eye, X, AlertCircle, Github } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Download, ChevronDown, Eye, X, AlertCircle, Github, CheckCircle } from 'lucide-react';
 
 // Types
 interface Paper {
@@ -13,37 +13,42 @@ interface Subject {
   papers: Paper;
 }
 
-// BCA Semester 1 Subjects with PDF URLs from GitHub
-// Base URL: https://raw.githubusercontent.com/pyKinsu/Assets/main/
+interface Notification {
+  type: 'success' | 'error';
+  message: string;
+}
+
+// BCA Semester 1 Subjects with PDF URLs from GitHub via jsdelivr CDN
+// jsdelivr provides better CDN performance and no CORS issues
 const subjects: Subject[] = [
   {
     name: 'Basic Mathematics',
     papers: {
-      2024: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2024.pdf',
-      2023: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2023.pdf',
+      2024: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2024.pdf',
+      2023: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2023.pdf',
       2022: null,
-      2021: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2021.pdf',
+      2021: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2021.pdf',
       2020: null,
       2019: null,
-      2018: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2018.pdf',
-      2017: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2017.pdf',
+      2018: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2018.pdf',
+      2017: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2017.pdf',
       2016: null,
       2015: null,
-      2014: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2014.pdf',
-      2013: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2013.pdf',
+      2014: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2014.pdf',
+      2013: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2013.pdf',
     }
   },
   {
     name: 'Communicative English',
     papers: {
-      2024: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2024.pdf',
+      2024: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2024.pdf',
       2023: null,
-      2022: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2022.pdf',
-      2021: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2021.pdf',
+      2022: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2022.pdf',
+      2021: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2021.pdf',
       2020: null,
-      2019: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2019.pdf',
-      2018: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2018.pdf',
-      2017: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2017.pdf',
+      2019: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2019.pdf',
+      2018: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2018.pdf',
+      2017: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2017.pdf',
       2016: null,
       2015: null,
       2014: null,
@@ -53,14 +58,14 @@ const subjects: Subject[] = [
   {
     name: 'Information Technology and Application',
     papers: {
-      2024: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2024.pdf',
-      2023: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2023.pdf',
-      2022: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2022.pdf',
-      2021: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2021.pdf',
+      2024: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2024.pdf',
+      2023: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2023.pdf',
+      2022: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2022.pdf',
+      2021: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2021.pdf',
       2020: null,
-      2019: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2019.pdf',
-      2018: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2018.pdf',
-      2017: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2017.pdf',
+      2019: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2019.pdf',
+      2018: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2018.pdf',
+      2017: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2017.pdf',
       2016: null,
       2015: null,
       2014: null,
@@ -70,17 +75,17 @@ const subjects: Subject[] = [
   {
     name: 'Principles of Management and Organization',
     papers: {
-      2024: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2024.pdf',
-      2023: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2023.pdf',
-      2022: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2022.pdf',
-      2021: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2021.pdf',
+      2024: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2024.pdf',
+      2023: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2023.pdf',
+      2022: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2022.pdf',
+      2021: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2021.pdf',
       2020: null,
-      2019: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2019.pdf',
-      2018: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2018.pdf',
-      2017: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2017.pdf',
+      2019: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2019.pdf',
+      2018: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2018.pdf',
+      2017: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2017.pdf',
       2016: null,
       2015: null,
-      2014: 'https://raw.githubusercontent.com/pyKinsu/Assets/main/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2014.pdf',
+      2014: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2014.pdf',
       2013: null,
     }
   },
@@ -158,11 +163,55 @@ const AlertModal: React.FC<AlertModalProps> = ({ isOpen, onClose, subject, year 
   );
 };
 
+// Notification Toast Component
+interface NotificationToastProps {
+  notification: Notification | null;
+  onClose: () => void;
+}
+
+const NotificationToast: React.FC<NotificationToastProps> = ({ notification, onClose }) => {
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification, onClose]);
+
+  if (!notification) return null;
+
+  return (
+    <div className="fixed top-4 right-4 z-50 animate-slide-in">
+      <div className={`p-4 border-2 ${
+        notification.type === 'success' 
+          ? 'bg-green-50 border-green-600 text-green-800' 
+          : 'bg-red-50 border-red-600 text-red-800'
+      } shadow-lg max-w-sm flex items-start gap-3`}>
+        {notification.type === 'success' ? (
+          <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+        ) : (
+          <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+        )}
+        <p className="text-sm font-medium flex-1">{notification.message}</p>
+        <button
+          onClick={onClose}
+          className="hover:bg-black/10 p-1 transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function PyqDownloadPage() {
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [downloading, setDownloading] = useState<boolean>(false);
+  const [viewLoading, setViewLoading] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [notification, setNotification] = useState<Notification | null>(null);
 
   const getPdfUrl = (): string | null => {
     if (!selectedSubject || !selectedYear) return null;
@@ -170,37 +219,64 @@ export default function PyqDownloadPage() {
     return subject?.papers[selectedYear] || null;
   };
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'd' && isValid && !downloading) {
+        e.preventDefault();
+        handleDownload();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'v' && isValid && !viewLoading) {
+        e.preventDefault();
+        handleView();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [selectedSubject, selectedYear, downloading, viewLoading]);
+
   const handleView = (): void => {
-    const pdfUrl = getPdfUrl();
-    
-    if (!pdfUrl) {
-      setShowAlert(true);
-      return;
-    }
-    
-    window.open(pdfUrl, '_blank');
-  };
+  const pdfUrl = getPdfUrl();
+
+  if (!pdfUrl) {
+    setShowAlert(true);
+    return;
+  }
+
+  setViewLoading(true);
+
+  // 🔥 OPEN PDF DIRECTLY (NO /view PAGE)
+  window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+
+  setTimeout(() => {
+    setViewLoading(false);
+  }, 300);
+};
+
 
   const handleDownload = (): void => {
-    const pdfUrl = getPdfUrl();
+  const pdfUrl = getPdfUrl();
+
+  if (!pdfUrl) {
+    setShowAlert(true);
+    return;
+  }
+
+  setDownloading(true);
+
+  const link = document.createElement('a');
+  link.href = pdfUrl;
+  link.download = `BCA-Sem1-${selectedSubject.replace(/\s+/g, '-')}-${selectedYear}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  setTimeout(() => {
+    setDownloading(false);
+  }, 500);
+};
     
-    if (!pdfUrl) {
-      setShowAlert(true);
-      return;
-    }
-    
-    setDownloading(true);
-    
-    setTimeout(() => {
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = `BCA-Sem1-${selectedSubject.replace(/\s+/g, '-')}-${selectedYear}.pdf`;
-      link.target = '_blank';
-      link.click();
-      
-      setDownloading(false);
-    }, 1000);
-  };
 
   const isValid = selectedSubject && selectedYear;
   const pdfUrl = getPdfUrl();
@@ -273,18 +349,27 @@ export default function PyqDownloadPage() {
             {/* View Button */}
             <button
               onClick={handleView}
-              disabled={!isValid}
+              disabled={!isValid || viewLoading}
               className="px-6 py-4 border-2 border-black bg-white text-black font-medium disabled:border-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed hover:bg-black hover:text-white active:bg-gray-800 transition-colors flex items-center justify-center gap-2"
             >
-              <Eye className="w-5 h-5" />
-              View
+              {viewLoading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
+                  <span className="hidden sm:inline">Opening...</span>
+                </>
+              ) : (
+                <>
+                  <Eye className="w-5 h-5" />
+                  View
+                </>
+              )}
             </button>
 
             {/* Download Button */}
             <button
               onClick={handleDownload}
               disabled={!isValid || downloading}
-              className="px-6 py-4 bg-black text-white font-medium disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed hover:bg-gray-800 active:bg-gray-900 transition-colors flex items-center justify-center gap-2"
+              className="px-6 py-4 bg-black text-white font-medium disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed hover:bg-gray-800 active:bg-gray-900 transition-colors flex items-center justify-center gap-2 relative overflow-hidden"
             >
               {downloading ? (
                 <>
@@ -369,14 +454,14 @@ export default function PyqDownloadPage() {
             <li>• Click "View" to open PDF in new tab</li>
             <li>• Click "Download" to save PDF to your device</li>
             <li>• Papers available from 2013 to 2024</li>
-            <li>• If PDF is unavailable, an alert will be shown</li>
+            <li>• Keyboard shortcuts: Ctrl+V (View), Ctrl+D (Download)</li>
           </ul>
         </div>
 
         {/* GitHub Link */}
         <div className="mt-8 flex items-center justify-center">
           <a
-            href="https://github.com/pyKinsu/Assets"
+            href="https://github.com/pyKinsu/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-black bg-white text-black font-medium hover:bg-black hover:text-white transition-colors"
@@ -388,7 +473,7 @@ export default function PyqDownloadPage() {
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p> Made by @pykinsu 2025-28</p>
+          <p>Made By ,<a href="https://github.com/pyKinsu">Kinsu</a></p>
           <p className="mt-1 text-xs">For educational purposes only</p>
         </div>
       </div>
@@ -399,6 +484,12 @@ export default function PyqDownloadPage() {
         onClose={() => setShowAlert(false)}
         subject={selectedSubject}
         year={selectedYear}
+      />
+
+      {/* Notification Toast */}
+      <NotificationToast
+        notification={notification}
+        onClose={() => setNotification(null)}
       />
 
       <style>{`
@@ -422,12 +513,27 @@ export default function PyqDownloadPage() {
           }
         }
 
+        @keyframes slide-in {
+          from {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
         .animate-fade-in {
           animation: fade-in 0.2s ease-out;
         }
 
         .animate-scale-in {
           animation: scale-in 0.3s ease-out;
+        }
+
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
         }
       `}</style>
     </div>
