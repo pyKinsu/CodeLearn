@@ -388,7 +388,7 @@ export default function PyqDownloadPage() {
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p>BCA Semester 1 - Academic Year 2024-25</p>
+          <p> Made by @pykinsu 2025-28</p>
           <p className="mt-1 text-xs">For educational purposes only</p>
         </div>
       </div>
