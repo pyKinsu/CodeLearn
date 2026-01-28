@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Download, ChevronDown, Eye, X, AlertCircle, Github } from 'lucide-react';
 
@@ -156,7 +158,7 @@ const AlertModal: React.FC<AlertModalProps> = ({ isOpen, onClose, subject, year 
   );
 };
 
-const PyqDownloadPage: React.FC = () => {
+export default function PyqDownloadPage() {
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [downloading, setDownloading] = useState<boolean>(false);
@@ -374,13 +376,13 @@ const PyqDownloadPage: React.FC = () => {
         {/* GitHub Link */}
         <div className="mt-8 flex items-center justify-center">
           <a
-            href="https://github.com/pyKinsu/"
+            href="https://github.com/pyKinsu/Assets"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-black bg-white text-black font-medium hover:bg-black hover:text-white transition-colors"
           >
             <Github className="w-5 h-5" />
-            Follow on GitHub
+            View on GitHub
           </a>
         </div>
 
@@ -430,6 +432,4 @@ const PyqDownloadPage: React.FC = () => {
       `}</style>
     </div>
   );
-};
-
-export default PyqDownloadPage;
+}
