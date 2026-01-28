@@ -19,18 +19,19 @@ interface Notification {
 }
 
 // BCA Semester 1 Subjects with PDF URLs from GitHub via jsdelivr CDN
+// jsdelivr provides better CDN performance and no CORS issues
 const subjects: Subject[] = [
   {
     name: 'Basic Mathematics',
     papers: {
-      2024: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2024.pdf',
-      2023: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2023.pdf',
+      2024: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2024.pdf',
+      2023: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2023.pdf',
       2022: null,
-      2021: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2021.pdf',
+      2021: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2021.pdf',
       2020: null,
       2019: null,
-      2018: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2018.pdf',
-      2017: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2017.pdf',
+      2018: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2018.pdf',
+      2017: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2017.pdf',
       2016: null,
       2015: null,
       2014: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2014.pdf',
@@ -40,13 +41,13 @@ const subjects: Subject[] = [
   {
     name: 'Communicative English',
     papers: {
-      2024: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2024.pdf',
+      2024: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2024.pdf',
       2023: null,
-      2022: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2022.pdf',
-      2021: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2021.pdf',
+      2022: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2022.pdf',
+      2021: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2021.pdf',
       2020: null,
-      2019: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2019.pdf',
-      2018: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-2018.pdf',
+      2019: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2019.pdf',
+      2018: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2017.pdf',
       2016: null,
       2015: null,
@@ -57,13 +58,13 @@ const subjects: Subject[] = [
   {
     name: 'Information Technology and Application',
     papers: {
-      2024: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2024.pdf',
-      2023: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2023.pdf',
-      2022: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2022.pdf',
-      2021: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2021.pdf',
+      2024: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2024.pdf',
+      2023: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2023.pdf',
+      2022: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2022.pdf',
+      2021: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2021.pdf',
       2020: null,
-      2019: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2019.pdf',
-      2018: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-2018.pdf',
+      2019: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2019.pdf',
+      2018: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2017.pdf',
       2016: null,
       2015: null,
@@ -74,18 +75,18 @@ const subjects: Subject[] = [
   {
     name: 'Principles of Management and Organization',
     papers: {
-      2024: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2024.pdf',
-      2023: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2023.pdf',
-      2022: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2022.pdf',
-      2021: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2021.pdf',
+      2024: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2024.pdf',
+      2023: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2023.pdf',
+      2022: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2022.pdf',
+      2021: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2021.pdf',
       2020: null,
-      2019: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2019.pdf',
-      2018: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2018.pdf',
-      2017: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2017.pdf',
+      2019: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2019.pdf',
+      2018: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2018.pdf',
+      2017: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2017.pdf',
       2016: null,
       2015: null,
       2014: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2014.pdf',
-      2013: null,
+      2013: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2013.pdf',
     }
   },
   {
