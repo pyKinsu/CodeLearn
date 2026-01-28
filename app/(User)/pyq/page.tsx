@@ -18,7 +18,7 @@ interface Notification {
   message: string;
 }
 
-// BCA Semester 1 Subjects with PDF URLs
+// BCA Semester 1 Subjects with PDF URLs add here urls 
 const subjects: Subject[] = [
   {
     name: 'Basic Mathematics',
