@@ -26,9 +26,14 @@ const subjects: Subject[] = [
     papers: {
       2024: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2024.pdf',
       2023: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2023.pdf',
+      2022: null,
       2021: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2021.pdf',
+      2020: null,
+      2019: null,
       2018: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2017.pdf',
+      2016: null,
+      2015: null,
       2014: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2014.pdf',
       2013: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2013.pdf',
     }
@@ -37,14 +42,17 @@ const subjects: Subject[] = [
     name: 'Communicative English',
     papers: {
       2024: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2024.pdf',
-      
+      2023: null,
       2022: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2022.pdf',
       2021: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2021.pdf',
-      
+      2020: null,
       2019: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2019.pdf',
       2018: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2017.pdf',
-     
+      2016: null,
+      2015: null,
+      2014: null,
+      2013: null,
     }
   },
   {
@@ -54,11 +62,14 @@ const subjects: Subject[] = [
       2023: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2023.pdf',
       2022: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2022.pdf',
       2021: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2021.pdf',
-      
+      2020: null,
       2019: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2019.pdf',
       2018: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2017.pdf',
-     
+      2016: null,
+      2015: null,
+      2014: null,
+      2013: null,
     }
   },
   {
@@ -68,9 +79,12 @@ const subjects: Subject[] = [
       2023: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2023.pdf',
       2022: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2022.pdf',
       2021: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2021.pdf',
+      2020: null,
       2019: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2019.pdf',
       2018: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2017.pdf',
+      2016: null,
+      2015: null,
       2014: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2014.pdf',
       2013: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2013.pdf',
     }
@@ -78,9 +92,18 @@ const subjects: Subject[] = [
   {
     name: 'Problem Solving Using Programming Skills',
     papers: {
+      2024: null,
       2023: '/pdf/pyq/bca-1-sem/pspc/PSPC-1-SEM-2023.pdf',
       2022: '/pdf/pyq/bca-1-sem/pspc/PSPC-1-SEM-2022.pdf',
+      2021: null,
+      2020: null,
+      2019: null,
+      2018: null,
       2017: '/pdf/pyq/bca-1-sem/pspc/PSPC-1-SEM-2017.pdf',
+      2016: null,
+      2015: null,
+      2014: null,
+      2013: null,
     }
   }
 ];
@@ -190,6 +213,27 @@ export default function PyqDownloadPage() {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [notification, setNotification] = useState<Notification | null>(null);
 
+  // Get available years for selected subject
+  const getAvailableYearsForSubject = (subjectName: string): string[] => {
+    const subject = subjects.find(s => s.name === subjectName);
+    if (!subject) return [];
+    return Object.entries(subject.papers)
+      .filter(([_, url]) => url !== null)
+      .map(([year, _]) => year)
+      .sort((a, b) => parseInt(b) - parseInt(a));
+  };
+
+  // Reset year selection when subject changes
+  useEffect(() => {
+    if (selectedSubject) {
+      const availableYears = getAvailableYearsForSubject(selectedSubject);
+      // If current selected year is not available for the new subject, reset it
+      if (selectedYear && !availableYears.includes(selectedYear)) {
+        setSelectedYear('');
+      }
+    }
+  }, [selectedSubject]);
+
   const getPdfUrl = (): string | null => {
     if (!selectedSubject || !selectedYear) return null;
     const subject = subjects.find(s => s.name === selectedSubject);
@@ -214,46 +258,44 @@ export default function PyqDownloadPage() {
   }, [selectedSubject, selectedYear, downloading, viewLoading]);
 
   const handleView = (): void => {
-  const pdfUrl = getPdfUrl();
+    const pdfUrl = getPdfUrl();
 
-  if (!pdfUrl) {
-    setShowAlert(true);
-    return;
-  }
+    if (!pdfUrl) {
+      setShowAlert(true);
+      return;
+    }
 
-  setViewLoading(true);
+    setViewLoading(true);
 
-  // 🔥 OPEN PDF DIRECTLY (NO /view PAGE)
-  window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+    // Open PDF directly
+    window.open(pdfUrl, '_blank', 'noopener,noreferrer');
 
-  setTimeout(() => {
-    setViewLoading(false);
-  }, 300);
-};
-
+    setTimeout(() => {
+      setViewLoading(false);
+    }, 300);
+  };
 
   const handleDownload = (): void => {
-  const pdfUrl = getPdfUrl();
+    const pdfUrl = getPdfUrl();
 
-  if (!pdfUrl) {
-    setShowAlert(true);
-    return;
-  }
+    if (!pdfUrl) {
+      setShowAlert(true);
+      return;
+    }
 
-  setDownloading(true);
+    setDownloading(true);
 
-  const link = document.createElement('a');
-  link.href = pdfUrl;
-  link.download = `BCA-Sem1-${selectedSubject.replace(/\s+/g, '-')}-${selectedYear}.pdf`;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = `BCA-Sem1-${selectedSubject.replace(/\s+/g, '-')}-${selectedYear}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-  setTimeout(() => {
-    setDownloading(false);
-  }, 500);
-};
-    
+    setTimeout(() => {
+      setDownloading(false);
+    }, 500);
+  };
 
   const isValid = selectedSubject && selectedYear;
   const pdfUrl = getPdfUrl();
@@ -268,6 +310,11 @@ export default function PyqDownloadPage() {
       .map(([year, _]) => year)
       .sort((a, b) => parseInt(b) - parseInt(a));
   };
+
+  // Get filtered years for year selector
+  const availableYearsForSelector = selectedSubject 
+    ? getAvailableYearsForSubject(selectedSubject)
+    : [];
 
   return (
     <div className="min-h-screen bg-white text-black flex items-center justify-center p-4">
@@ -303,15 +350,29 @@ export default function PyqDownloadPage() {
 
           {/* Year Selector */}
           <div>
-            <label className="block text-sm font-medium mb-2">Year</label>
+            <label className="block text-sm font-medium mb-2">
+              Year
+              {selectedSubject && availableYearsForSelector.length > 0 && (
+                <span className="ml-2 text-xs text-gray-500">
+                  ({availableYearsForSelector.length} available)
+                </span>
+              )}
+            </label>
             <div className="relative">
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-black bg-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all"
+                disabled={!selectedSubject}
+                className="w-full px-4 py-3 border-2 border-black bg-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
               >
-                <option value="">Select a year</option>
-                {years.map((year) => (
+                <option value="">
+                  {selectedSubject 
+                    ? (availableYearsForSelector.length > 0 
+                        ? 'Select a year' 
+                        : 'No papers available')
+                    : 'Select a subject first'}
+                </option>
+                {availableYearsForSelector.map((year) => (
                   <option key={year} value={year}>
                     {year}
                   </option>
