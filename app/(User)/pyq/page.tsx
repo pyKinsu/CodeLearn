@@ -18,7 +18,8 @@ interface Notification {
   message: string;
 }
 
-// BCA Semester 1 Subjects with PDF URLs add here urls 
+// BCA Semester 1 Subjects with PDF URLs from GitHub via jsdelivr CDN
+// jsdelivr provides better CDN performance and no CORS issues
 const subjects: Subject[] = [
   {
     name: 'Basic Mathematics',
@@ -92,13 +93,13 @@ const subjects: Subject[] = [
     name: 'Problem Solving Using Programming Skills',
     papers: {
       2024: null,
-      2023: '/pdf/pyq/bca-1-sem/problem-solving-using-programming-skills/PSPC-1-SEM-2023.pdf',
-      2022: '/pdf/pyq/bca-1-sem/problem-solving-using-programming-skills/PSPC-1-SEM-2022.pdf',
+      2023: 'PSPC-1-SEM-2023.pdf',
+      2022: 'PSPC-1-SEM-2022.pdf',
       2021: null,
       2020: null,
       2019: null,
       2018: null,
-      2017: '/pdf/pyq/bca-1-sem/problem-solving-using-programming-skills/PSPC-1-SEM-2017.pdf',
+      2017: 'PSPC-1-SEM-2017.pdf',
       2016: null,
       2015: null,
       2014: null,
@@ -106,6 +107,8 @@ const subjects: Subject[] = [
     }
   }
 ];
+
+const years: number[] = Array.from({ length: 12 }, (_, i) => 2024 - i); // 2024 to 2013
 
 // Alert Modal Component
 interface AlertModalProps {
@@ -216,21 +219,6 @@ export default function PyqDownloadPage() {
     return subject?.papers[selectedYear] || null;
   };
 
-  // Get available years for selected subject
-  const getAvailableYearsForSubject = (subjectName: string): number[] => {
-    const subject = subjects.find(s => s.name === subjectName);
-    if (!subject) return [];
-    return Object.entries(subject.papers)
-      .filter(([_, url]) => url !== null)
-      .map(([year, _]) => parseInt(year))
-      .sort((a, b) => b - a); // Sort descending (2024 -> 2013)
-  };
-
-  // Reset year when subject changes
-  useEffect(() => {
-    setSelectedYear('');
-  }, [selectedSubject]);
-
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -249,44 +237,46 @@ export default function PyqDownloadPage() {
   }, [selectedSubject, selectedYear, downloading, viewLoading]);
 
   const handleView = (): void => {
-    const pdfUrl = getPdfUrl();
+  const pdfUrl = getPdfUrl();
 
-    if (!pdfUrl) {
-      setShowAlert(true);
-      return;
-    }
+  if (!pdfUrl) {
+    setShowAlert(true);
+    return;
+  }
 
-    setViewLoading(true);
+  setViewLoading(true);
 
-    // Open PDF directly
-    window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+  // 🔥 OPEN PDF DIRECTLY (NO /view PAGE)
+  window.open(pdfUrl, '_blank', 'noopener,noreferrer');
 
-    setTimeout(() => {
-      setViewLoading(false);
-    }, 300);
-  };
+  setTimeout(() => {
+    setViewLoading(false);
+  }, 300);
+};
+
 
   const handleDownload = (): void => {
-    const pdfUrl = getPdfUrl();
+  const pdfUrl = getPdfUrl();
 
-    if (!pdfUrl) {
-      setShowAlert(true);
-      return;
-    }
+  if (!pdfUrl) {
+    setShowAlert(true);
+    return;
+  }
 
-    setDownloading(true);
+  setDownloading(true);
 
-    const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.download = `BCA-Sem1-${selectedSubject.replace(/\s+/g, '-')}-${selectedYear}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const link = document.createElement('a');
+  link.href = pdfUrl;
+  link.download = `BCA-Sem1-${selectedSubject.replace(/\s+/g, '-')}-${selectedYear}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 
-    setTimeout(() => {
-      setDownloading(false);
-    }, 500);
-  };
+  setTimeout(() => {
+    setDownloading(false);
+  }, 500);
+};
+    
 
   const isValid = selectedSubject && selectedYear;
   const pdfUrl = getPdfUrl();
@@ -301,9 +291,6 @@ export default function PyqDownloadPage() {
       .map(([year, _]) => year)
       .sort((a, b) => parseInt(b) - parseInt(a));
   };
-
-  // Get available years for dropdown
-  const availableYears = selectedSubject ? getAvailableYearsForSubject(selectedSubject) : [];
 
   return (
     <div className="min-h-screen bg-white text-black flex items-center justify-center p-4">
@@ -339,28 +326,15 @@ export default function PyqDownloadPage() {
 
           {/* Year Selector */}
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Year {selectedSubject && availableYears.length > 0 && (
-                <span className="text-xs text-gray-500 font-normal">
-                  ({availableYears.length} available)
-                </span>
-              )}
-            </label>
+            <label className="block text-sm font-medium mb-2">Year</label>
             <div className="relative">
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(e.target.value)}
-                disabled={!selectedSubject}
-                className="w-full px-4 py-3 border-2 border-black bg-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all disabled:bg-gray-100 disabled:cursor-not-allowed disabled:border-gray-300"
+                className="w-full px-4 py-3 border-2 border-black bg-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 transition-all"
               >
-                <option value="">
-                  {!selectedSubject 
-                    ? 'Select subject first' 
-                    : availableYears.length === 0 
-                    ? 'No papers available' 
-                    : 'Select a year'}
-                </option>
-                {availableYears.map((year) => (
+                <option value="">Select a year</option>
+                {years.map((year) => (
                   <option key={year} value={year}>
                     {year}
                   </option>
@@ -465,7 +439,7 @@ export default function PyqDownloadPage() {
             </div>
             <div className="border-t border-gray-300 pt-2">
               <span className="text-gray-600 font-medium">Programming Skills:</span>
-              <div className="mt-1 text-gray-800">
+              <div className="mt-1 text-red-600 font-medium">
                 {getAvailableYears('Problem Solving Using Programming Skills').join(', ') || 'None yet'}
               </div>
             </div>
@@ -487,7 +461,7 @@ export default function PyqDownloadPage() {
 
         {/* Footer */}
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Made By <a href="https://github.com/pyKinsu" className="hover:text-black transition-colors">Kinsu</a></p>
+          <p>Made By ,<a href="https://github.com/pyKinsu">Kinsu</a></p>
           <p className="mt-1 text-xs">For educational purposes only</p>
         </div>
       </div>
