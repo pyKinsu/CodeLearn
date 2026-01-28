@@ -26,14 +26,9 @@ const subjects: Subject[] = [
     papers: {
       2024: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2024.pdf',
       2023: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2023.pdf',
-      2022: null,
       2021: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2021.pdf',
-      2020: null,
-      2019: null,
       2018: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-303102-2017.pdf',
-      2016: null,
-      2015: null,
       2014: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2014.pdf',
       2013: '/pdf/pyq/bca-1-sem/basic-mathematics/bca-1-sem-basic-mathematics-2013.pdf',
     }
@@ -42,17 +37,14 @@ const subjects: Subject[] = [
     name: 'Communicative English',
     papers: {
       2024: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2024.pdf',
-      2023: null,
+      
       2022: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2022.pdf',
       2021: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2021.pdf',
-      2020: null,
+      
       2019: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2019.pdf',
       2018: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/communicative-english/bca-1-sem-communicative-english-303101-2017.pdf',
-      2016: null,
-      2015: null,
-      2014: null,
-      2013: null,
+     
     }
   },
   {
@@ -62,14 +54,11 @@ const subjects: Subject[] = [
       2023: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2023.pdf',
       2022: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2022.pdf',
       2021: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2021.pdf',
-      2020: null,
+      
       2019: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2019.pdf',
       2018: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/information-technology-and-application/bca-1-sem-information-technology-and-application-303103-2017.pdf',
-      2016: null,
-      2015: null,
-      2014: null,
-      2013: null,
+     
     }
   },
   {
@@ -79,12 +68,9 @@ const subjects: Subject[] = [
       2023: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2023.pdf',
       2022: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2022.pdf',
       2021: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2021.pdf',
-      2020: null,
       2019: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2019.pdf',
       2018: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2018.pdf',
       2017: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-303104-2017.pdf',
-      2016: null,
-      2015: null,
       2014: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2014.pdf',
       2013: '/pdf/pyq/bca-1-sem/principles-of-management-and-organization/bca-1-sem-principle-of-management-and-organization-2013.pdf',
     }
@@ -92,18 +78,9 @@ const subjects: Subject[] = [
   {
     name: 'Problem Solving Using Programming Skills',
     papers: {
-      2024: null,
       2023: '/pdf/pyq/bca-1-sem/pspc/PSPC-1-SEM-2023.pdf',
       2022: '/pdf/pyq/bca-1-sem/pspc/PSPC-1-SEM-2022.pdf',
-      2021: null,
-      2020: null,
-      2019: null,
-      2018: null,
       2017: '/pdf/pyq/bca-1-sem/pspc/PSPC-1-SEM-2017.pdf',
-      2016: null,
-      2015: null,
-      2014: null,
-      2013: null,
     }
   }
 ];
