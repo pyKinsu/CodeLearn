@@ -18,8 +18,7 @@ interface Notification {
   message: string;
 }
 
-// BCA Semester 1 Subjects with PDF URLs from GitHub via jsdelivr CDN
-// jsdelivr provides better CDN performance and no CORS issues
+// BCA Semester 1 Subjects with PDF URLs
 const subjects: Subject[] = [
   {
     name: 'Basic Mathematics',
