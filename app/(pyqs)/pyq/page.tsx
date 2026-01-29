@@ -498,8 +498,8 @@ export default function PyqDownloadPage() {
         </div>
 
         {/* Footer */}
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Made By ,<a href="https://github.com/pyKinsu">Kinsu</a></p>
+        <div className="mt-6 text-center text-sm text-black">
+          <p>Made By ,<a href="https://github.com/pyKinsu">Kinsu Rajput</a></p>
           <p className="mt-1 text-xs">For educational purposes only</p>
         </div>
       </div>
